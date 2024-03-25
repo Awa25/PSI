@@ -1,0 +1,81 @@
+---
+title: "PSI_Capstone Pair Project"
+author: "Ruei Li Jhang & Chia Hua Lin"
+date: "2024-03-25"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+
+# Loading libraries
+
+library(dplyr)
+library(ggplot2)
+
+
+```
+
+
+
+# Data Understanding
+
+The data set was downloaded from Kaggle.com. According to the data description, the data focuses on malicious URL detection. This data helps in the development of cyber security systems that can detect any malicious attempt to gain access and send a sigal to systems to perform the relevant in return.
+
+Data set link: https://www.kaggle.com/datasets/pilarpieiro/tabular-dataset-ready-for-malicious-url-detection/data
+
+The data set includes URLs and 60 other calculated features. In our analysis, we will not use all the 60 features, but we will select the most important features. In the data description, a list of 9 important features has been provided and they are as follows:
+
+* Basic URL Components
+
+* Domain Information
+
+* Content Analysis
+
+* Host Reputation
+
+* Network Features
+
+* Behavioural Features
+
+
+
+```{r}
+
+# Loading the train data
+train_data <- read.csv('train_dataset.csv')
+train_data <- na.omit(train_data) # Remove rows with any NA/null values
+dim(train_data)
+ 
+# Loding test data
+test_data <- read.csv('test_dataset.csv')
+test_data <- na.omit(test_data) # Remove rows with any NA/null values
+dim(test_data)
+
+```
+
+The original train data has 6,728,848 observations and the test data contains 1,682,213.
+
+
+**Due to the computational resources, we will randomly select 200,000 observations for training and 100,000 observations for testing.** 
+
+
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
+
