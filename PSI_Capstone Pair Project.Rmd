@@ -49,15 +49,15 @@ The data set includes URLs and 60 other calculated features. In our analysis, we
 
 ```{r}
 
-# Loading the train data
-train_data <- read.csv('train_dataset.csv')
-train_data <- na.omit(train_data) # Remove rows with any NA/null values
-dim(train_data)
+# # Loading the train data
+# train_data <- read.csv('train_dataset.csv')
+# train_data <- na.omit(train_data) # Remove rows with any NA/null values
+# dim(train_data)
  
-# Loding test data
-test_data <- read.csv('test_dataset.csv')
-test_data <- na.omit(test_data) # Remove rows with any NA/null values
-dim(test_data)
+# # Loading test data
+# test_data <- read.csv('test_dataset.csv')
+# test_data <- na.omit(test_data) # Remove rows with any NA/null values
+# dim(test_data)
 
 ```
 
@@ -70,23 +70,23 @@ The original train data has 6,728,848 observations and the test data contains 1,
 
 ```{r}
 
-# Set seed for reproducibility
-set.seed(2024)
+# # Set seed for reproducibility
+# set.seed(2024)
 
-# Define the number of samples you want for each label category
-num_samples_per_label <- 1000000
+# # Define the number of samples you want for each label category
+# num_samples_per_label <- 1000000
 
-# Sample from each label category
-train_data_sample <- train_data %>%
-   group_by(label) %>%
-   sample_n(num_samples_per_label, replace = TRUE)
+# # Sample from each label category
+# train_data_sample <- train_data %>%
+#    group_by(label) %>%
+#    sample_n(num_samples_per_label, replace = TRUE)
 
-# Test data
-test_data_sample <- test_data[sample(nrow(test_data), 1000000), ]
+# # Test data
+# test_data_sample <- test_data[sample(nrow(test_data), 1000000), ]
 
-# Write train_data2 to CSV
-write.csv(train_data_sample, file = "train_data_sample.csv", row.names = FALSE)
-write.csv(test_data_sample, file = "test_data_sample.csv", row.names = FALSE)
+# # Write train_data2 to CSV
+# write.csv(train_data_sample, file = "train_data_sample.csv", row.names = FALSE)
+# write.csv(test_data_sample, file = "test_data_sample.csv", row.names = FALSE)
 
 ```
 
@@ -101,6 +101,11 @@ write.csv(test_data_sample, file = "test_data_sample.csv", row.names = FALSE)
 train_data <- read.csv('train_data_sample.csv')
 train_data <- na.omit(train_data) # Remove rows with any NA/null values
 dim(train_data)
+
+# Loading the test data
+test_data <- read.csv('test_data_sample.csv')
+test_data <- na.omit(test_data) # Remove rows with any NA/null values
+dim(test_data)
 
 ```
 
