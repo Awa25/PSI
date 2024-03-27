@@ -2,11 +2,18 @@
 title: "PSI_Capstone Pair Project"
 author: "Ruei Li Jhang & Chia Hua Lin"
 date: "2024-03-25"
-output: html_document
+output: 
+  html_document:
+    toc: yes
+    toc_depth: 5
+    number_sections: yes
+    theme: united
+    highlight: tango
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+rm(list = ls())
 ```
 
 
