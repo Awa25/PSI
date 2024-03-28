@@ -155,10 +155,45 @@ train_data <- train_data %>%
 
 
 
+## Exploratory Data Analysis
+
+During EDA, we are going to perform tasks such as:
+
+* Summarizing the distribution of each variable (count and distribution)
+* Visualizing relationships between variables (scatter plots, box plots)
+* Detecting outliers or anomalies (histograms)
+* Exploring correlations between variables
+* Identifying potential patterns or trends in the data
 
 
+### Binary Variables
+
+Here, we're preparing for Exploratory Data Analysis (EDA) by selecting specific columns from the train_data dataframe. We are identifying binary variables within the train_dataset. The criteria involve checking if the column is numeric and if it possesses only two unique values. If these conditions are satisfied, indicating that the column indeed contains binary data, we add it to the binary_vars list.
 
 
+```{r}
 
+# Initialize an empty list to store binary variables
+binary_vars <- list()
 
+# Loop through each column in the dataset
+for (col in names(train_data)) {
+  
+  # Check if the column is numeric and has only two unique values
+  if (is.numeric(train_data[[col]]) && length(unique(train_data[[col]])) == 2) {
+    
+    # If the condition is met, add the column to the list
+    binary_vars[[col]] <- train_data[[col]]
+  }
+}
 
+# Convert the list of binary variables to a dataframe
+binary_df <- as.data.frame(binary_vars)
+
+# Convert all columns in binary_df to factors
+binary_df <- as.data.frame(lapply(binary_df, as.factor))
+
+# Overview
+head(binary_df, 5)
+
+```
