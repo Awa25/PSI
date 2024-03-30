@@ -197,3 +197,158 @@ binary_df <- as.data.frame(lapply(binary_df, as.factor))
 head(binary_df, 5)
 
 ```
+
+
+
+
+#### Distribution of url_has_login
+
+```{r}
+
+# Plotting the count of url_has_login
+ggplot(binary_df, aes(x = url_has_login, fill = url_has_login)) +
+  geom_bar(stat = "count", position = "dodge") +
+  geom_text(stat = "count", aes(label = after_stat(count)),
+            vjust = -0.2, position = position_dodge(width = 0.8)) +
+  labs(title = "Distribution of url_has_login",
+       x = "url_has_login",
+       y = "Count") +
+  theme_minimal() +
+  facet_wrap(~ label, labeller = labeller(label = c("0" = "benign", "1" = "Malicious")))
+
+```
+
+For the URLs that are no malicious, 99986 had no log in while 14 had log in. For the malicious URLs, 92849 had no log in while 7151 had log in.
+
+
+
+
+#### Distribution of url_has_client
+
+```{r}
+
+ggplot(binary_df, aes(x = url_has_client, fill = url_has_client)) +
+  geom_bar(stat = "count", position = "dodge") +
+  geom_text(stat = "count", aes(label = after_stat(count)),
+            vjust = -0.2, position = position_dodge(width = 0.8)) +
+  labs(title = "Distribution of url_has_client",
+       x = "url_has_client",
+       y = "Count") +
+  theme_minimal() +
+  facet_wrap(~ label, labeller = labeller(label = c("0" = "benign", "1" = "Malicious")))
+
+```
+
+For the URLs that are no malicious, 99987 had no client in while 13 had client. For the malicious URLs, 99123 had no client in while 877 had client.
+
+
+
+
+#### Distribution of url_has_server
+
+```{r}
+
+# Plotting the count of url_has_server
+ggplot(binary_df, aes(x = url_has_server, fill = url_has_server)) +
+  geom_bar(stat = "count", position = "dodge") +
+  geom_text(stat = "count", aes(label = after_stat(count)),
+            vjust = -0.2, position = position_dodge(width = 0.8)) +
+  labs(title = "Distribution of url_has_server",
+       x = "url_has_server",
+       y = "Count" ) +
+  theme_minimal() +
+  facet_wrap(~ label, labeller = labeller(label = c ("0" = "benign", "1" = "Malicious")))
+
+```
+
+For the UELs that are not malicious, 99839 had no server in while 161 had server. For the malicious URLs, 99512 had no server in while 488 had server.
+
+
+
+
+#### Distribution of url_has_admin
+
+```{r}
+
+#plotting the count of url_has_admin
+ggplot(binary_df, aes(x = url_has_admin, fill = url_has_admin)) +
+  geom_bar(stat = "count", position = "dodge") +
+  geom_text(stat = "count", aes(label = after_stat(count)),
+            vjust = -0.2, position = position_dodge(width = 0.8)) +
+  labs(title = "Distribution of url_has_admin",
+       x = "url_has_admin",
+       y = "Count" ) +
+  theme_minimal() +
+  facet_wrap(~ label, labeller = labeller(label = c("0" = "benign", "1" = "Milicious")))
+
+```
+
+For the URLs that are not malicious, 99950 had no admin in while 50 had admin. For the malicious URLs, 98442 had no admin while 1558 had admin.
+
+
+
+
+#### Distribution of url_has_ip
+
+```{r}
+
+# Plotting the count of url_has_ip
+ggplot(binary_df, aes(x = url_has_ip, fill = url_has_ip)) +
+  geom_bar(stat = "count", position = "dodge") +
+  geom_text(stat = "count", aes(label = after_stat(count)), 
+            vjust = -0.2, position = position_dodge(width = 0.8)) +
+  labs(title = "Distribution of url_has_ip",
+       x = "url_has_ip",
+       y = "Count" ) +
+  theme_minimal() +
+  facet_wrap(~ label, labeller = labeller(label = c("0" = "benign", "1" = "Malicious")))
+
+```
+
+For the URLs that are not malicious, all had no IP. For the malicious URLs, 98374 had no IP in while 1626 had IP.
+
+
+
+
+#### Distribution of url_isshorted
+
+```{r}
+
+# Plotting the count of url_isshorted
+ggplot(binary_df, aes(x = url_isshorted, fill = url_isshorted)) +
+  geom_bar(stat = "count", position = "dodge") +
+  geom_text(stat = "count", aes(label = after_stat(count)),
+            vjust = -0.2, position = position_dodge(width = 0.8)) +
+  labs(title = "Distribution of url_isshorted",
+       x = "url_isshorted",
+       y = "Count" ) +
+  theme_minimal() +
+  facet_wrap(~ label, labeller = labeller(label = c("0" = "benign", "1" = "Milicious")))
+
+```
+
+For the URLs that are no milicious, 4475 were shortened in while 95525 were not. For the malicious URLs, 7091 were shortened in while 92909 were not.
+
+
+
+
+
+#### Distribution of Label
+
+```{r}
+
+# Plotting the count of label
+ggplot(binary_df, aes(x = label, fill = label)) +
+  geom_bar(stat = "count", position = "dodge") +
+  geom_text(stat = "count", aes(label = after_stat(count)),
+            vjust = -0.2, position = position_dodge(width = 0.8)) +
+  labs(title = "Distribution of label",
+       x = "label",
+       y = "Count" ) +
+  theme_minimal()
+
+```
+
+Out target variable which is Label, is was balanced.
+
+
