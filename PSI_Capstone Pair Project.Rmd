@@ -352,3 +352,18 @@ ggplot(binary_df, aes(x = label, fill = label)) +
 Out target variable which is Label, is was balanced.
 
 
+
+
+### Distribution of Numerical Variables
+
+```{r}
+
+# Selecting all columns except the ones mentioned in binary
+numerical_columns <- train_data[, !names(train_data) %in% names(binary_df)]
+
+# Remove the first two columns
+numerical_columns <- numerical_columns %>%
+  dplyr::select(-url, -source)
+
+```
+
