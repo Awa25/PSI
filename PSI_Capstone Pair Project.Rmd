@@ -367,3 +367,366 @@ numerical_columns <- numerical_columns %>%
 
 ```
 
+
+
+
+#### Distribution of URL_LEN
+
+```{r}
+
+# Plotting histogram using ggplot2
+ggplot(numerical_columns, aes(x = url_len)) +
+  geom_histogram(bins = 30, fill = "skyblue", color = "black") +
+  labs(title = "Histogram of URL Length", x = "URL Length", y = "Frequency")
+
+```
+
+The URL len is positively skewed meaning the majority of the URLs have a shorter length. However, we can already see the presence of outliers in the URL length column. We will treat this by dropping all the outliers.
+
+
+
+
+#### Distribution of url_entropy
+
+```{r}
+
+# Plotting histogram using ggplot2
+ggplot(numerical_columns, aes(x = url_entropy)) +
+  geom_histogram(bins = 30, fill = "skyblue", color = "black") +
+  labs(title = "Histogram of URL Entropy", x = "URL Entropy", y = "Frequency")
+
+```
+
+URL entropy is almost normally distributed with a slight negative skew.
+
+
+
+
+#### Distribution of url_count_dot
+
+```{r}
+
+# Plotting histogram using ggplot2
+ggplot(numerical_columns, aes(x = url_count_dot)) +
+  geom_histogram(bins = 30, fill = "skyblue", color = "black") +
+  labs(title = "Histogram of URL Dot Count", x = "Dot Count", y = "Frequency")
+
+```
+
+
+
+
+#### Distribution of url_count_https
+
+```{r}
+
+# Plotting histogram using ggplot2
+ggplot(numerical_columns, aes(x = url_count_https)) +
+  geom_histogram(bins = 30, fill = "skyblue", color = "black") +
+  labs(title = "Histogram of URL HTTPS Count", x = "HTTPS Count", y = "Frequency")
+
+```
+
+
+
+
+#### Distribution of url_count_http
+
+```{r}
+
+# Plotting histogram using ggplot2
+ggplot(numerical_columns, aes(x = url_count_http)) +
+  geom_histogram(bins = 30, fill = "skyblue", color = "black") +
+  labs(title = "Histogram of URL HTTP Count", x = "HTTP Count", y = "Frequency")
+
+```
+
+
+
+
+#### Distribution of url_count_perc
+
+```{r}
+
+# Plotting histogram using ggplot2
+ggplot(numerical_columns, aes(x = url_count_perc)) +
+  geom_histogram(bins = 30, fill = "skyblue", color = "black") +
+  labs(title = "Histogram of URL Perc Count", x = "Perc Count", y = "Frequency")
+
+```
+
+
+
+
+#### Distribution of url_count_hyphen
+
+```{r}
+
+# Plotting histogram using ggplot2
+ggplot(numerical_columns, aes(x = url_count_hyphen)) +
+  geom_histogram(bins = 30, fill = "skyblue", color = "black") +
+  labs(title = "Histogram of URL Hyphen Count", x = "Hyphen Count", y = "Frequency")
+
+```
+
+
+
+
+#### Distribution of url_count_www
+
+```{r}
+
+# Plotting histogram using ggplot2
+ggplot(numerical_columns, aes(x = url_count_www)) +
+  geom_histogram(bins = 30, fill = "skyblue", color = "black") +
+  labs(title = "Histogram of URL WWW Count", x = "WWW Count", y = "Frequency")
+
+```
+
+
+
+
+#### Distribution of url_count_hash
+
+```{r}
+
+# Plotting histogram using ggplot2
+ggplot(numerical_columns, aes(x = url_count_hash)) +
+  geom_histogram(bins = 30, fill = "skyblue", color = "black") +
+  labs(title = "Histogram of URL Hash Count", x = "Hash Count", y = "Frequency")
+
+```
+
+
+
+
+#### Distribution of url_count_semicolon
+
+```{r}
+
+# Plotting histogram using ggplot2
+ggplot(numerical_columns, aes(x = url_count_semicolon)) +
+  geom_histogram(bins = 30, fill = "skyblue", color = "black") +
+  labs(title = "Histogram of URL Semicolon Count", x = "Semicolon Count", y = "Frequency")
+
+```
+
+
+
+
+#### Distribution of url_count_underscore
+
+```{r}
+
+# Plotting histogram using ggplot2
+ggplot(numerical_columns, aes(x = url_count_underscore)) +
+  geom_histogram(bins = 30, fill = "skyblue", color = "black") +
+  labs(title = "Histogram of URL Underscore Count", x = "Underscore Count", y = "Frequency")
+
+```
+
+
+
+
+#### Distribution of url_count_ques
+
+```{r}
+
+# Plotting histogram using ggplot2
+ggplot(numerical_columns, aes(x = url_count_ques)) +
+  geom_histogram(bins = 30, fill = "skyblue", color = "black") +
+  labs(title = "Histogram of URL Question Mark Count", x = "Question Mark Count", y = "Frequency")
+
+```
+
+
+
+
+#### Distribution of url_count_equal
+
+```{r}
+
+# Plotting histogram using ggplot2
+ggplot(numerical_columns, aes(x = url_count_equal)) +
+  geom_histogram(bins = 30, fill = "skyblue", color = "black") +
+  labs(title = "Histogram of URL Equal Sign Count", x = "Equal Sign Count", y = "Frequency")
+
+```
+
+
+
+
+#### Distribution of url_count_amp
+
+```{r}
+
+# Plotting histogram using ggplot2
+ggplot(numerical_columns, aes(x = url_count_amp)) +
+  geom_histogram(bins = 30, fill = "skyblue", color = "black") +
+  labs(title = "Histogram of URL Ampersands Count", x = "Ampersands Count", y = "Frequency")
+
+```
+
+
+
+
+#### Distribution of url_count_letter
+
+```{r}
+
+# Plotting histogram using ggplot2
+ggplot(numerical_columns, aes(x = url_count_letter)) +
+  geom_histogram(bins = 30, fill = "skyblue", color = "black") +
+  labs(title = "Histogram of URL Letter Count", x = "Letter Count", y = "Frequency")
+
+```
+
+
+
+
+#### Distribution of url_count_digit
+
+```{r}
+
+# Plotting histogram using ggplot2
+ggplot(numerical_columns, aes(x = url_count_digit)) +
+  geom_histogram(bins = 30, fill = "skyblue", color = "black") +
+  labs(title = "Histogram of URL Digits Count", x = "Digits Count", y = "Frequency")
+
+```
+
+
+
+
+#### Distribution of url_count_sensitive_financial_words
+
+```{r}
+
+# Plotting histogram using ggplot2
+ggplot(numerical_columns, aes(x = url_count_sensitive_financial_words)) +
+  geom_histogram(bins = 30, fill = "skyblue", color = "black") +
+  labs(title = "Histogram of URL Sensitive Financial Words Count", 
+       x = "Sensitive Financial Words Count", y = "Frequency")
+
+```
+
+
+
+
+#### Distribution of url_count_sensitive_words
+
+```{r}
+
+# Plotting histogram using ggplot2
+ggplot(numerical_columns, aes(x = url_count_sensitive_words)) +
+  geom_histogram(bins = 30, fill = "skyblue", color = "black") +
+  labs(title = "Histogram of URL Sensitive Words Count", 
+       x = "Sensitive Words Count", y = "Frequency")
+
+```
+
+
+
+
+#### Distribution of path_len
+
+```{r}
+
+# Plotting histogram using ggplot2
+ggplot(numerical_columns, aes(x = path_len)) +
+  geom_histogram(bins = 30, fill = "skyblue", color = "black") +
+  labs(title = "Histogram of Path Length", x = "Path Length", y = "Frequency")
+
+```
+
+
+
+
+#### Distribution of query_len
+
+```{r}
+
+# Plotting histogram using ggplot2
+ggplot(numerical_columns, aes(x = query_len)) +
+  geom_histogram(bins = 30, fill = "skyblue", color = "black") +
+  labs(title = "Histogram of Query Length", x = "Query Length", y = "Frequency")
+
+```
+
+
+
+
+#### Distribution of query_count_components
+
+```{r}
+
+# Plotting histogram using ggplot2
+ggplot(numerical_columns, aes(x = query_count_components)) +
+  geom_histogram(bins = 30, fill = "skyblue", color = "black") +
+  labs(title = "Histogram of Count of Query Components",
+       x = "Count of Query Components", y = "Frequency")
+
+```
+
+
+
+
+#### Distribution of primary domain length
+
+```{r}
+
+# Plotting histogram using ggplot2
+ggplot(numerical_columns, aes(x = pdomain_len)) +
+  geom_histogram(bins = 30, fill = "skyblue", color = "black") +
+  labs(title = "Histogram of Length of Primary Domain",
+       x = "Domain Length", y = "Frequency")
+
+```
+
+
+
+
+#### Distribution of subdomain len
+
+```{r}
+
+# Plotting histogram using ggplot2
+ggplot(numerical_columns, aes(x = subdomain_len)) +
+  geom_histogram(bins = 30, fill = "skyblue", color = "black") +
+  labs(title = "Histogram of Subdomain Length",
+       x = "Subdomain Length", y = "Frequency")
+
+```
+
+
+
+
+#### Distribution of subdomain_count_dot
+
+```{r}
+
+# Plotting histogram using ggplot2
+ggplot(numerical_columns, aes(x = subdomain_count_dot)) +
+  geom_histogram(bins = 30, fill = "skyblue", color = "black") +
+  labs(title = "Histogram of Count of Dot in the Subdomain",
+       x = "Count of Subdomain Dot", y = "Frequency")
+
+```
+
+Other than URL entropy, all the variables are positively skewed with a clear sign of large outliers. These outliers could skew our analysis results and therefore, we will deal with them in the Data Preparation section.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
