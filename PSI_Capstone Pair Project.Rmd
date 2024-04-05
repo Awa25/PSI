@@ -718,6 +718,46 @@ Other than URL entropy, all the variables are positively skewed with a clear sig
 
 
 
+### Treating Outliers
+
+We defined a function for identifying and managing outliers within a dataset. The function takes three parameters: the dataset data, a vector specifying the columns to be processed columns, and a threshold determining the outlier deterction criteria, set to 3 standard deviations from the mean. Detected outliers are replaced with NA values, and a summary is printed for each column, indicating the number of outliers removed. Then all the missing valuas (NA) are omitted.
+
+```{r}
+
+# Removing outliers
+remove_outliers <- function(data, columns, threshold = 3) {
+  # Iterate over each specified column
+  for (col in columns) {
+    # Calculate mean and standard deviation
+    mean_value <- mean(data[[col]], na.rm = TRUE)
+    sd_value <- sd(data[[col]], na.rm = TRUE)
+    
+    # Identify outliers
+    outliers <- data[data[[col]] > mean_value + threshold * sd_value |
+                     data[[col]] < mean_value - threshold * sd_value, ]
+    
+    # Print summary
+    cat("Outliers removed for column:", col, "\n")
+    cat("Number of outliers removed:", nrow(outliers), "\n\n")
+  }
+  
+  return(data)
+  
+}
+
+# Call the function
+train_data_cleaned <- remove_outliers(train_data, names(numerical_columns), threshold = 3)
+
+```
+
+```{r}
+
+# Remove nulls
+train_data_cleaned <- na.omit(train_data_cleaned)
+
+```
+
+
 
 
 

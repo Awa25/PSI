@@ -510,6 +510,7 @@ len</a></li>
 <li><a href="#distribution-of-subdomain_count_dot" id="toc-distribution-of-subdomain_count_dot"><span class="toc-section-number">1.3.2.24</span> Distribution of
 subdomain_count_dot</a></li>
 </ul></li>
+<li><a href="#treating-outliers" id="toc-treating-outliers"><span class="toc-section-number">1.3.3</span> Treating Outliers</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -1039,6 +1040,113 @@ a clear sign of large outliers. These outliers could skew our analysis
 results and therefore, we will deal with them in the Data Preparation
 section.</p>
 </div>
+</div>
+<div id="treating-outliers" class="section level3" number="1.3.3">
+<h3><span class="header-section-number">1.3.3</span> Treating
+Outliers</h3>
+<p>We defined a function for identifying and managing outliers within a
+dataset. The function takes three parameters: the dataset data, a vector
+specifying the columns to be processed columns, and a threshold
+determining the outlier deterction criteria, set to 3 standard
+deviations from the mean. Detected outliers are replaced with NA values,
+and a summary is printed for each column, indicating the number of
+outliers removed. Then all the missing valuas (NA) are omitted.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" tabindex="-1"></a><span class="co"># Removing outliers</span></span>
+<span id="cb43-2"><a href="#cb43-2" tabindex="-1"></a>remove_outliers <span class="ot">&lt;-</span> <span class="cf">function</span>(data, columns, <span class="at">threshold =</span> <span class="dv">3</span>) {</span>
+<span id="cb43-3"><a href="#cb43-3" tabindex="-1"></a>  <span class="co"># Iterate over each specified column</span></span>
+<span id="cb43-4"><a href="#cb43-4" tabindex="-1"></a>  <span class="cf">for</span> (col <span class="cf">in</span> columns) {</span>
+<span id="cb43-5"><a href="#cb43-5" tabindex="-1"></a>    <span class="co"># Calculate mean and standard deviation</span></span>
+<span id="cb43-6"><a href="#cb43-6" tabindex="-1"></a>    mean_value <span class="ot">&lt;-</span> <span class="fu">mean</span>(data[[col]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb43-7"><a href="#cb43-7" tabindex="-1"></a>    sd_value <span class="ot">&lt;-</span> <span class="fu">sd</span>(data[[col]], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb43-8"><a href="#cb43-8" tabindex="-1"></a>    </span>
+<span id="cb43-9"><a href="#cb43-9" tabindex="-1"></a>    <span class="co"># Identify outliers</span></span>
+<span id="cb43-10"><a href="#cb43-10" tabindex="-1"></a>    outliers <span class="ot">&lt;-</span> data[data[[col]] <span class="sc">&gt;</span> mean_value <span class="sc">+</span> threshold <span class="sc">*</span> sd_value <span class="sc">|</span></span>
+<span id="cb43-11"><a href="#cb43-11" tabindex="-1"></a>                     data[[col]] <span class="sc">&lt;</span> mean_value <span class="sc">-</span> threshold <span class="sc">*</span> sd_value, ]</span>
+<span id="cb43-12"><a href="#cb43-12" tabindex="-1"></a>    </span>
+<span id="cb43-13"><a href="#cb43-13" tabindex="-1"></a>    <span class="co"># Print summary</span></span>
+<span id="cb43-14"><a href="#cb43-14" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">&quot;Outliers removed for column:&quot;</span>, col, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
+<span id="cb43-15"><a href="#cb43-15" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">&quot;Number of outliers removed:&quot;</span>, <span class="fu">nrow</span>(outliers), <span class="st">&quot;</span><span class="sc">\n\n</span><span class="st">&quot;</span>)</span>
+<span id="cb43-16"><a href="#cb43-16" tabindex="-1"></a>  }</span>
+<span id="cb43-17"><a href="#cb43-17" tabindex="-1"></a>  </span>
+<span id="cb43-18"><a href="#cb43-18" tabindex="-1"></a>  <span class="fu">return</span>(data)</span>
+<span id="cb43-19"><a href="#cb43-19" tabindex="-1"></a>  </span>
+<span id="cb43-20"><a href="#cb43-20" tabindex="-1"></a>}</span>
+<span id="cb43-21"><a href="#cb43-21" tabindex="-1"></a></span>
+<span id="cb43-22"><a href="#cb43-22" tabindex="-1"></a><span class="co"># Call the function</span></span>
+<span id="cb43-23"><a href="#cb43-23" tabindex="-1"></a>train_data_cleaned <span class="ot">&lt;-</span> <span class="fu">remove_outliers</span>(train_data, <span class="fu">names</span>(numerical_columns), <span class="at">threshold =</span> <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## Outliers removed for column: url_len 
+## Number of outliers removed: 3083 
+## 
+## Outliers removed for column: url_entropy 
+## Number of outliers removed: 561 
+## 
+## Outliers removed for column: url_count_dot 
+## Number of outliers removed: 2073 
+## 
+## Outliers removed for column: url_count_https 
+## Number of outliers removed: 700 
+## 
+## Outliers removed for column: url_count_http 
+## Number of outliers removed: 861 
+## 
+## Outliers removed for column: url_count_perc 
+## Number of outliers removed: 116 
+## 
+## Outliers removed for column: url_count_hyphen 
+## Number of outliers removed: 3354 
+## 
+## Outliers removed for column: url_count_www 
+## Number of outliers removed: 1743 
+## 
+## Outliers removed for column: url_count_hash 
+## Number of outliers removed: 399 
+## 
+## Outliers removed for column: url_count_semicolon 
+## Number of outliers removed: 268 
+## 
+## Outliers removed for column: url_count_underscore 
+## Number of outliers removed: 995 
+## 
+## Outliers removed for column: url_count_ques 
+## Number of outliers removed: 9926 
+## 
+## Outliers removed for column: url_count_equal 
+## Number of outliers removed: 3067 
+## 
+## Outliers removed for column: url_count_amp 
+## Number of outliers removed: 2600 
+## 
+## Outliers removed for column: url_count_letter 
+## Number of outliers removed: 2450 
+## 
+## Outliers removed for column: url_count_digit 
+## Number of outliers removed: 2332 
+## 
+## Outliers removed for column: url_count_sensitive_financial_words 
+## Number of outliers removed: 4853 
+## 
+## Outliers removed for column: url_count_sensitive_words 
+## Number of outliers removed: 1870 
+## 
+## Outliers removed for column: path_len 
+## Number of outliers removed: 2378 
+## 
+## Outliers removed for column: query_len 
+## Number of outliers removed: 2762 
+## 
+## Outliers removed for column: query_count_components 
+## Number of outliers removed: 4121 
+## 
+## Outliers removed for column: pdomain_len 
+## Number of outliers removed: 2 
+## 
+## Outliers removed for column: subdomain_len 
+## Number of outliers removed: 3567 
+## 
+## Outliers removed for column: subdomain_count_dot 
+## Number of outliers removed: 4172</code></pre>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" tabindex="-1"></a><span class="co"># Remove nulls</span></span>
+<span id="cb45-2"><a href="#cb45-2" tabindex="-1"></a>train_data_cleaned <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(train_data_cleaned)</span></code></pre></div>
 </div>
 </div>
 </div>
