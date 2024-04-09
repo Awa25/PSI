@@ -736,6 +736,10 @@ remove_outliers <- function(data, columns, threshold = 3) {
     outliers <- data[data[[col]] > mean_value + threshold * sd_value |
                      data[[col]] < mean_value - threshold * sd_value, ]
     
+    # Treat outliers (replace with NA)
+    data[[col]][data[[col]] > mean_value + threshold * sd_value |
+                data[[col]] < mean_value - threshold * sd_value ] <- NA
+    
     # Print summary
     cat("Outliers removed for column:", col, "\n")
     cat("Number of outliers removed:", nrow(outliers), "\n\n")
@@ -756,6 +760,90 @@ train_data_cleaned <- remove_outliers(train_data, names(numerical_columns), thre
 train_data_cleaned <- na.omit(train_data_cleaned)
 
 ```
+
+
+
+
+### Relationship Between Our Target Variable, Label, and All Other Variables
+
+
+#### Correlation Between Numerical Variables and Target Variable, Label
+
+Then, we perform correlation analysis between numerical variables and a binary label in a dataset. We define a function named correlation_plot that calculates point-biserial correlation coefficients for each numerical variable with respect to the binary label. This function iterates over the numerical columns, computes the correlation coefficient using the biserial.cor function, and appends the results to the global dataframe correlation_data. Finally, the fuction generates a bar plot of correlationts ordered from highest to lowest, providing insights into the strength and direction of association between each numerical variable and the binary label.
+
+
+
+```{r}
+
+# Select binary variables
+binary_cols <- names(binary_df)
+
+# Remove the label
+binary_cols <- setdiff(binary_cols, "label")
+
+# Initialize an empty dataframe to store correlation coefficients
+correlation_data <- data.frame(variable = character(),
+                               correlation = numeric(),
+                               stringsAsFactors = FALSE)
+
+correlation_plot <- function(data, label_column) {
+  
+  # Select numerical columns
+  data2 <- select_if(data, is.numeric)
+  
+  # Remove the binary variables
+  numerical_cols <- data2[, !(names(data2) %in% binary_cols)]
+  
+  # Iterate over numerical columns
+  for (col in names(numerical_cols)) {
+    
+    # Calculate point-biserial correlation
+    corr <- biserial.cor(data[[col]], as.numeric(data[[label_column]]),
+                         use = c("all.obs"), level = 2)
+    
+    # Store correlation coefficient in the global dataframe
+    correlation_data <<- bind_rows(correlation_data,
+                                   data.frame(variable = col,
+                                              correlation = corr))
+  }
+  
+  # Plot correlation coefficients with bars ordered from max to min correlation
+  ggplot(na.omit(correlation_data), aes(x = reorder(variable, -correlation), y = correlation)) +
+    geom_bar(stat = "identity", fill = "skyblue", color ="black") +
+    coord_flip() +
+    labs(title = "Point-Biserial Correlation of Numerical Variables with Label",
+         x = "Variable",
+         y = "Correlation Coefficient") +
+    theme_minimal()
+}
+
+# Calling the function
+correlation_plot(train_data_cleaned, "label")
+
+```
+
+
+
+
+```{r}
+
+# Showing the dataframe
+print(correlation_data)
+
+```
+
+
+The plot above visualizes the data in the data frame printed above. We can see that we have numerical columns that have medium strength correlation with our target variable which is label. Some of the columns had NaNs so we will not be moving forward with any column that had no correlation with our target variable.
+
+It is important to note that all our variables are positively correlated to our target variable
+
+URL entropy has the strongest correlation with our target variable label, followed by URL Length, URL letter count and sub domain length in that order.
+
+
+
+
+
+
 
 
 
