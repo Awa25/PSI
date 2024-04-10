@@ -841,6 +841,53 @@ URL entropy has the strongest correlation with our target variable label, follow
 
 
 
+#### Correlation Between Binary Varialbe and Target Varialbe Label
+
+In here, we computed the Phi coefficient, a measure of association between two binary variables, specifically between binary variables and a binary label within a dataset.
+
+```{r}
+
+# Initialize empty dataframes
+result <- data.frame(variable = character(),
+                     label = character(),
+                     phi_coefficient = numeric(),
+                     stringsAsFactors = FALSE)
+
+# Compute Phi coefficient
+compute_phi_coefficients <- function(data) {
+  for (col in names(data)) {
+    if (is.binary <- is.facet(data[[col]]) && length(levels(data[[col]])) == 2) {
+      phi <- cor(as.numeric(data[[col]]), as.numeric(data$label))
+      result <- rbind(result, data.frame(variable = col,
+                                         label = "label",
+                                         phi_coefficient = phi,
+                                         stringsAsFactors = FALSE))
+    }
+  }
+  
+  # Plot correlation coefficient
+  plot <- ggplot(na.omit(result), aes(x = reorder(variable, -phi_coefficient), y = phi_coefficient)) +
+    geom_bar(stat = "identity", fill = "skyblue", color = "black") +
+    coord_flip() +
+    labs(title = "Phi Coefficient of Binary Variables with Label",
+         x = "Variable",
+         y = "Phi Coefficient") +
+    
+    return(list(result = result, plot)) # Return both result dataframe and plot
+}
+
+# Call the function
+output <- compute_phi_coefficients(binary_df)
+
+# Plot the bar chart separately
+print(outpu$plot)
+
+```
+
+
+
+
+
 
 
 
