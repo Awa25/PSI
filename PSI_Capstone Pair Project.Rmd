@@ -901,6 +901,42 @@ The URL with log in has the strongest association with the target variable, foll
 
 
 
+# Data Preparation
+
+We will then perform preparation like cleaning, and transforming the data to make it suitable for analysis and modeling. This may iclude handling missing values, encoding categorical variables, scaling features, and splitting the data into training and testing sets.
+
+
+
+## Cleaning
+
+In here, we performed data preprocessing steps to prepare the training and test datasets for model training and evaluation. Firstly, we select columns without null values from the correlation_data dataframe and stroe the names of these columns in the num_cols vector. Then, we identify necessary columns for modeling, including both binary columns(binary_cols)and numerical columns(num_cols). Next, we set the seed for reproducibility using set.seed(2004) and downsapmle the train_data_cleaned dataset to 50,000 samples per label group to balace the dataset. We then selected only the necessary columns(necessary_cols) from both the training(train_data_cleaned) and test(test_data) datasets, ensuring consistency in the variables used for modeling between the training and test datasets.
+
+
+```{r}
+
+# Select the columns without nulls
+num_cols <- as.character(na.omit(correlation_data)$variable)
+
+# Necessary columns
+necessary_cols <- c(binary_cols, num_cols)
+
+set.seed(2024)
+train_data_cleaned <- train_data_cleaned %>% group_by(label) %>% sample_n(50000, replace = TRUE)
+
+# Select only the necessary columns from train_data_clenaned
+train <- train_data_cleaned[necessary_cols]
+
+## Cleaning Test data
+# Select only the necessary columns from train_data_cleaned
+test <- test_data[necessary_cols]
+
+```
+
+
+
+
+
+
 
 
 
