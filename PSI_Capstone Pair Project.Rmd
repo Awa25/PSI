@@ -843,20 +843,20 @@ URL entropy has the strongest correlation with our target variable label, follow
 
 #### Correlation Between Binary Varialbe and Target Varialbe Label
 
-In here, we computed the Phi coefficient, a measure of association between two binary variables, specifically between binary variables and a binary label within a dataset.
+In here, we computed the Phi coefficient, a measure of association between two binary variables, specifically between binary variables and a binary label within a dataset. The compute_phi_coefficients function iterates over each column in the dataset, checking if the column is binary(i.e., a factor with two levels). If the condition is met, the Phi coefficient is calculated between the binary variable and the binary label.The results are appended to the result dataframe.Finally, the function generates a bar plot visualizing the Phi coefficients for each binary variable with respect to the label. The function returns both the result dataframe and the genarated plot.
 
 ```{r}
 
-# Initialize empty dataframes
+# Initialize empty dataframe
 result <- data.frame(variable = character(),
                      label = character(),
                      phi_coefficient = numeric(),
                      stringsAsFactors = FALSE)
 
-# Compute Phi coefficient
+# Compute phi coefficient
 compute_phi_coefficients <- function(data) {
   for (col in names(data)) {
-    if (is.binary <- is.facet(data[[col]]) && length(levels(data[[col]])) == 2) {
+    if (is.binary <- is.factor(data[[col]]) && length(levels(data[[col]])) == 2) {
       phi <- cor(as.numeric(data[[col]]), as.numeric(data$label))
       result <- rbind(result, data.frame(variable = col,
                                          label = "label",
@@ -865,25 +865,38 @@ compute_phi_coefficients <- function(data) {
     }
   }
   
-  # Plot correlation coefficient
+  # Plot correlation coefficients 
   plot <- ggplot(na.omit(result), aes(x = reorder(variable, -phi_coefficient), y = phi_coefficient)) +
     geom_bar(stat = "identity", fill = "skyblue", color = "black") +
     coord_flip() +
-    labs(title = "Phi Coefficient of Binary Variables with Label",
+    labs(title = "Phi Coefficint of Binary Variables with Label",
          x = "Variable",
          y = "Phi Coefficient") +
-    
-    return(list(result = result, plot)) # Return both result dataframe and plot
+    theme_minimal()
+  
+  return(list(result = result, plot = plot))  # Return both result dataframe and plot
 }
 
 # Call the function
 output <- compute_phi_coefficients(binary_df)
 
 # Plot the bar chart separately
-print(outpu$plot)
+print(output$plot)
 
 ```
 
+
+```{r}
+
+# result dataframe
+result_df <- output$result
+result_df
+
+```
+
+We can also see the phi coefficient between all the binary variables and our target variable, label. Phi coefficients is a measure of association between two dichotomous variables.It measures how much two binary variables are associated where 1 is perfect association while 0 means no association at all.
+
+The URL with log in has the strongest association with the target variable, followed by Url with IP, then URL with admin in that order. Since all of them had at least a weak association, we are going to use all the 6 binary variables in our next.
 
 
 
