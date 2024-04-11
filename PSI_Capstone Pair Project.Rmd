@@ -935,6 +935,66 @@ test <- test_data[necessary_cols]
 
 
 
+## Transforming to Right Data Types
+
+For the training data, we first converted binary columns to factors. We converted the target variable label to a factor, with "0" encoded as "Benign" and "1" as "Malicious". We then shuffle the rows of the training data for randomness using sample and set the seed for reproducibility. Finally, we reset the row indices using row.names(). We did the same for testing set.
+
+
+```{r}
+
+### Train Data ###
+# Convert columns to factors
+train[binary_cols] <- lapply(train[binary_cols], factor)
+
+# Convert our target variable to factor
+train <- train %>%
+  mutate(label = as.factor(ifelse(label == '0', "Benign", "Malicious")))
+
+# Shuffle the rows of train_data
+set.seed(2024)
+train <- train[sample(nrow(train)), ]
+
+# Reset index using row.names()
+row.names(train) <- NULL
+
+
+### Test data ###
+test[binary_cols] <- lapply(test[binary_cols], factor)
+
+# Convert our target variable to factor
+test <- test %>%
+  mutate(label = as.factor(ifelse(label == '0', "Benign", "Malicious")))
+
+# Shuffle the rows of train_data
+set.seed(2024)
+test <- test[sample(nrow(test)), ]
+
+# Reset index using row.names()
+row.names(test) <- NULL
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

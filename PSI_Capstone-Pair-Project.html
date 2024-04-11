@@ -524,6 +524,8 @@ Varialbe and Target Varialbe Label</a></li>
 <li><a href="#data-preparation" id="toc-data-preparation"><span class="toc-section-number">2</span> Data Preparation</a>
 <ul>
 <li><a href="#cleaning" id="toc-cleaning"><span class="toc-section-number">2.1</span> Cleaning</a></li>
+<li><a href="#transforming-to-right-data-types" id="toc-transforming-to-right-data-types"><span class="toc-section-number">2.2</span> Transforming to Right Data
+Types</a></li>
 </ul></li>
 </ul>
 </div>
@@ -1372,6 +1374,45 @@ training and test datasets.</p>
 <span id="cb52-13"><a href="#cb52-13" tabindex="-1"></a><span class="do">## Cleaning Test data</span></span>
 <span id="cb52-14"><a href="#cb52-14" tabindex="-1"></a><span class="co"># Select only the necessary columns from train_data_cleaned</span></span>
 <span id="cb52-15"><a href="#cb52-15" tabindex="-1"></a>test <span class="ot">&lt;-</span> test_data[necessary_cols]</span></code></pre></div>
+</div>
+<div id="transforming-to-right-data-types" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Transforming to Right
+Data Types</h2>
+<p>For the training data, we first converted binary columns to factors.
+We converted the target variable label to a factor, with “0” encoded as
+“Benign” and “1” as “Malicious”. We then shuffle the rows of the
+training data for randomness using sample and set the seed for
+reproducibility. Finally, we reset the row indices using row.names(). We
+did the same for testing set.</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" tabindex="-1"></a><span class="do">### Train Data </span><span class="al">###</span></span>
+<span id="cb53-2"><a href="#cb53-2" tabindex="-1"></a><span class="co"># Convert columns to factors</span></span>
+<span id="cb53-3"><a href="#cb53-3" tabindex="-1"></a>train[binary_cols] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(train[binary_cols], factor)</span>
+<span id="cb53-4"><a href="#cb53-4" tabindex="-1"></a></span>
+<span id="cb53-5"><a href="#cb53-5" tabindex="-1"></a><span class="co"># Convert our target variable to factor</span></span>
+<span id="cb53-6"><a href="#cb53-6" tabindex="-1"></a>train <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
+<span id="cb53-7"><a href="#cb53-7" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">label =</span> <span class="fu">as.factor</span>(<span class="fu">ifelse</span>(label <span class="sc">==</span> <span class="st">&#39;0&#39;</span>, <span class="st">&quot;Benign&quot;</span>, <span class="st">&quot;Malicious&quot;</span>)))</span>
+<span id="cb53-8"><a href="#cb53-8" tabindex="-1"></a></span>
+<span id="cb53-9"><a href="#cb53-9" tabindex="-1"></a><span class="co"># Shuffle the rows of train_data</span></span>
+<span id="cb53-10"><a href="#cb53-10" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2024</span>)</span>
+<span id="cb53-11"><a href="#cb53-11" tabindex="-1"></a>train <span class="ot">&lt;-</span> train[<span class="fu">sample</span>(<span class="fu">nrow</span>(train)), ]</span>
+<span id="cb53-12"><a href="#cb53-12" tabindex="-1"></a></span>
+<span id="cb53-13"><a href="#cb53-13" tabindex="-1"></a><span class="co"># Reset index using row.names()</span></span>
+<span id="cb53-14"><a href="#cb53-14" tabindex="-1"></a><span class="fu">row.names</span>(train) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb53-15"><a href="#cb53-15" tabindex="-1"></a></span>
+<span id="cb53-16"><a href="#cb53-16" tabindex="-1"></a></span>
+<span id="cb53-17"><a href="#cb53-17" tabindex="-1"></a><span class="do">### Test data </span><span class="al">###</span></span>
+<span id="cb53-18"><a href="#cb53-18" tabindex="-1"></a>test[binary_cols] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(test[binary_cols], factor)</span>
+<span id="cb53-19"><a href="#cb53-19" tabindex="-1"></a></span>
+<span id="cb53-20"><a href="#cb53-20" tabindex="-1"></a><span class="co"># Convert our target variable to factor</span></span>
+<span id="cb53-21"><a href="#cb53-21" tabindex="-1"></a>test <span class="ot">&lt;-</span> test <span class="sc">%&gt;%</span></span>
+<span id="cb53-22"><a href="#cb53-22" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">label =</span> <span class="fu">as.factor</span>(<span class="fu">ifelse</span>(label <span class="sc">==</span> <span class="st">&#39;0&#39;</span>, <span class="st">&quot;Benign&quot;</span>, <span class="st">&quot;Malicious&quot;</span>)))</span>
+<span id="cb53-23"><a href="#cb53-23" tabindex="-1"></a></span>
+<span id="cb53-24"><a href="#cb53-24" tabindex="-1"></a><span class="co"># Shuffle the rows of train_data</span></span>
+<span id="cb53-25"><a href="#cb53-25" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2024</span>)</span>
+<span id="cb53-26"><a href="#cb53-26" tabindex="-1"></a>test <span class="ot">&lt;-</span> test[<span class="fu">sample</span>(<span class="fu">nrow</span>(test)), ]</span>
+<span id="cb53-27"><a href="#cb53-27" tabindex="-1"></a></span>
+<span id="cb53-28"><a href="#cb53-28" tabindex="-1"></a><span class="co"># Reset index using row.names()</span></span>
+<span id="cb53-29"><a href="#cb53-29" tabindex="-1"></a><span class="fu">row.names</span>(test) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span></code></pre></div>
 </div>
 </div>
 
