@@ -977,6 +977,43 @@ row.names(test) <- NULL
 
 
 
+# Modeling
+
+The data set was already split when we downloaded from Kaggle.com, but when selecting, we selected 200,000 observations for training before cleaning and pre-processing, and 100,000 for testing
+
+We sampled a balanced training set.
+
+
+## Decision Tree
+
+```{r}
+
+# Decision Tree classifier object
+dt_classifier <- rpart(label ~ ., data = train, method = "class")
+
+# Mark predictions
+dt_predictions <- predict(dt_classifier, newdata = test, type = "class")
+
+# Calculate accuracy
+accuracy <- sum(dt_predictions == test$label) / nrow(test)
+print(paste("Accuracy: ", accuracy))
+
+# Confusion Matrix
+confusion_matrix <- confusionMatrix(dt_predictions, test$label)
+print(confusion_matrix)
+
+# AUC using ROC curve
+roc_dt <- roc(as.numeric(test$label), as.numeric(dt_predictions))
+
+# AUC for Decision Tree Classifier
+auc_dt <- au(roc_dt)
+print(paste("AUC for Decision Tree Classifier: ", round(auc_dt, 4)))
+
+```
+
+
+
+
 
 
 
