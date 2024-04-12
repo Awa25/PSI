@@ -1001,6 +1001,8 @@ print(paste("Accuracy:", accuracy))
 
 # Confusion matrix
 confusion_matrix <- confusionMatrix(dt_predictions, test$label)
+
+# Print Confusion matrix
 print(confusion_matrix)
 
 # AUC using ROC curve
@@ -1015,7 +1017,7 @@ print(paste("AUC for Decision Tree Classifier:", round(auc_dt, 4)))
 
 ### ROC Curve For Decision Tree
 
-```{r}
+```{r message=TRUE}
 
 # Binary outcome for the ROC curve
 binary_outcome_dt <- test$label
@@ -1042,6 +1044,38 @@ The specificity of the model is 83.33, indicating the proportion of actual negat
 
 The Area Under the Curve for the Decision Tree Classifier model is 0.816. This means that the model's ability to distinguish between positive and negative classes stands at 81.6%.
 
+
+
+
+# Logistic Regression
+
+```{r warning=FALSE}
+
+# Fit the Logistic Regression model
+set.seed(2024)
+log_reg <- glm(label ~ ., data = train, family = "binomial")
+
+# Make Predictions
+log_reg_predictions <- predict(log_reg, test)
+
+# Convert predictions to class labels
+log_reg_predictions <- as.factor(ifelse(log_reg_predictions > 0.5, 'Malicious', 'Benign'))
+
+# Compute the confusion matrix
+confusion_matrix_log_reg <- confusionMatrix(log_reg_predictions, test$label)
+
+# Print the confusion matrix
+print(confusion_matrix_log_reg)
+
+# Convert predictions to numeric
+log_reg_predictions_numeric <- as.numeric(ifelse(log_reg_predictions == 'Malicious', 1, 0))
+binary_label <- ifelse(test$label == 'Malicious', 1, 0)
+
+# Calculate ROC curve
+roc_log_reg <- roc(binary_label, log_reg_predictions)
+
+
+```
 
 
 
