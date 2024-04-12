@@ -1053,7 +1053,7 @@ The Area Under the Curve for the Decision Tree Classifier model is 0.816. This m
 
 
 
-# Logistic Regression
+## Logistic Regression
 
 ```{r warning=FALSE}
 
@@ -1116,6 +1116,46 @@ The sensitivity of the model is 0.8907, which indicates the proportion (89.07%) 
 The specificity of the model is 0.7168, which indicates the proportion (71.68%) of actual negatives (Malicious) correctly identified as negative.
 
 The Area Under the Curve is 0.8037, which means, the model's ablility to distinguish between positive and negative classes scored 80.37%.
+
+
+
+## XGBoost Model
+
+```{r}
+
+# XGBoost with iteration_range
+# Convert the class labels to 0 and 1 for binary classification
+train$label <- ifelse(train$label == "Malicious", 1, 0)
+test$label <- ifelse(test$label == "Malicious", 1, 0)
+
+# Convert entire train and test datasets to numeric
+train <- as.data.frame(lapply(train, as.numeric))
+test <- as.data.frame(lapply(test, as.numeric))
+
+# Convert the training and test data to DMatrix format
+dtrain <- xgb.DMatrix(data = as.matrix(train[, -which(names(train) == "label")]), label = train$label)
+dtest <- xgb.DMatrix(data = as.matrix(test[, -which(names(test) == "label")]), label = test$label)
+
+set.seed(2023)
+# Train the XGBoost model
+xgb_model <- xgboost(data = dtrain, nrounds = 100, verbose = 0)
+
+# Make predictions on the test data
+xgb_predictions <- predict(xgb_model, dtest)
+
+# Convert predictions to class labels (0 or 1)
+xgb_predictions <- as.factor(ifelse(xgb_predictions > 0.5, 'Malicious', 'Benign'))
+
+# Compute the confusion matrix
+test$label <- as.factor(ifelse(test$label == 1, 'Malicious', 'Benign'))
+train$label <- as.factor(ifelse(train$label ==1, 'Malicious', 'Benign'))
+confusion_matrix <- confusionMatrix(xgb_predictions, test$label)
+
+# Print the confusion matrix
+print(confusion_matrix)
+
+```
+
 
 
 
