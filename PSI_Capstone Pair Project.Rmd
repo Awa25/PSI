@@ -27,7 +27,13 @@ library(ltm)
 library(randomForest)
 library(rpart)
 library(e1071)
-
+library(mlbench)
+library(caTools)
+library(caret)
+library(pROC)
+library(PRROC)
+library(ROCR)
+library(xgboost)
 
 ```
 
@@ -39,7 +45,7 @@ The data set was downloaded from Kaggle.com. According to the data description, 
 
 Data set link: https://www.kaggle.com/datasets/pilarpieiro/tabular-dataset-ready-for-malicious-url-detection/data
 
-The data set includes URLs and 60 other calculated features. In our analysis, we will not use all the 60 features, but we will select the most important features. In the data description, a list of 9 important features has been provided and they are as follows:
+The data set includes URLs and 60 other calculated features. In our analysis, we will not use all the 60 features, but we will select the most important features. In the data description, a list of 6 important features has been provided and they are as follows:
 
 * Basic URL Components
 
@@ -1072,11 +1078,44 @@ log_reg_predictions_numeric <- as.numeric(ifelse(log_reg_predictions == 'Malicio
 binary_label <- ifelse(test$label == 'Malicious', 1, 0)
 
 # Calculate ROC curve
-roc_log_reg <- roc(binary_label, log_reg_predictions)
+roc_log_reg <- roc(binary_label, log_reg_predictions_numeric)
 
+# AUC for XGBoost
+auc_log_reg <- auc(roc_log_reg)
+
+print(paste("AUC for Logistic Regression:", round(auc_log_reg, 4)))
 
 ```
 
+
+### ROC For Logistic Regression
+
+
+```{r}
+
+# Binary outcome for the ROC curve
+binary_outcome_log_reg <- ifelse(test$label == "Alive", 1, 0)
+
+# ROC Curve
+roc_log_reg <- roc(log_reg_predictions_numeric, binary_label)
+
+# Plotting ROC Curve for KNN
+plot(roc_log_reg, col ="blue",
+     main = "ROC Curve for Logistic Regression",
+     lwd = 2,
+     cex.main = 0.8)
+
+```
+
+The accuracy of the model is 0.8533, which indicates that is correctly predicts the class of the data points with an accuracy of 85.33%.
+
+From the confusion matrix, we can see that the model correctly predicted 69895 Benign cases and 15431 Malicious cases. However, it mis-classified 8577 Benign cases as Malicious and 6097 Malicious cases as Benign.
+
+The sensitivity of the model is 0.8907, which indicates the proportion (89.07%) of actual positives (Benign) correctly identified as positive.
+
+The specificity of the model is 0.7168, which indicates the proportion (71.68%) of actual negatives (Malicious) correctly identified as negative.
+
+The Area Under the Curve is 0.8037, which means, the model's ablility to distinguish between positive and negative classes scored 80.37%.
 
 
 
