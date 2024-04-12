@@ -26,6 +26,7 @@ library(ggplot2)
 library(ltm)
 library(randomForest)
 library(rpart)
+library(e1071)
 
 
 ```
@@ -988,17 +989,17 @@ We sampled a balanced training set.
 
 ```{r}
 
-# Decision Tree classifier object
+# decision tree classifier object
 dt_classifier <- rpart(label ~ ., data = train, method = "class")
 
-# Mark predictions
+# Make predictions
 dt_predictions <- predict(dt_classifier, newdata = test, type = "class")
 
 # Calculate accuracy
 accuracy <- sum(dt_predictions == test$label) / nrow(test)
-print(paste("Accuracy: ", accuracy))
+print(paste("Accuracy:", accuracy))
 
-# Confusion Matrix
+# Confusion matrix
 confusion_matrix <- confusionMatrix(dt_predictions, test$label)
 print(confusion_matrix)
 
@@ -1006,14 +1007,40 @@ print(confusion_matrix)
 roc_dt <- roc(as.numeric(test$label), as.numeric(dt_predictions))
 
 # AUC for Decision Tree Classifier
-auc_dt <- au(roc_dt)
-print(paste("AUC for Decision Tree Classifier: ", round(auc_dt, 4)))
+auc_dt <- auc(roc_dt)
+print(paste("AUC for Decision Tree Classifier:", round(auc_dt, 4)))
 
 ```
 
 
+### ROC Curve For Decision Tree
+
+```{r}
+
+# Binary outcome for the ROC curve
+binary_outcome_dt <- test$label
+
+# Create an ROC object for XGBoost
+roc_dt <-roc(binary_outcome_dt, as.numeric(dt_predictions))
+
+# Plot ROC curve for XGBoost
+plot(roc_dt, col = "blue",
+     main = "ROC Curve for XGBoost",
+     lwd = 2,
+     cex.main = 0.8)
+
+```
 
 
+The accuracy of the Decision Tree Classifier model is 0.861, indicating that it correctly predicts class of the data points with an accuracy of 80.61%.
+
+We can also see that the model correctly predicted62674 cases as Benign and 17939 cases as Malicious. It mis-classiied 15798 Benign cases as Malicious and 3598 Malicious cases Malicious case as Benign.
+
+The sensitivity of the model is 79.87, indicating the proportion of actual positives(Benign) correctly identified as positive(benign).
+
+The specificity of the model is 83.33, indicating the proportion of actual negatives(Malicious) correctly identified as negative(Malicious).
+
+The Area Under the Curve for the Decision Tree Classifier model is 0.816. This means that the model's ability to distinguish between positive and negative classes stands at 81.6%.
 
 
 
