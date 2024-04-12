@@ -1136,9 +1136,33 @@ test <- as.data.frame(lapply(test, as.numeric))
 dtrain <- xgb.DMatrix(data = as.matrix(train[, -which(names(train) == "label")]), label = train$label)
 dtest <- xgb.DMatrix(data = as.matrix(test[, -which(names(test) == "label")]), label = test$label)
 
+# Define XGBoost parameters
+params <- list(
+  # Binary classification problem
+  objective = "binary:logistic",
+  
+  # Evaluation metric (logarithmic loss)
+  eval_metric = "logloss",
+  
+  # Learning rate
+  eta = 0.3,
+  
+  # Maximum depth of trees
+  max_depth = 6,
+  
+  # Minimum sum of instance weight needed
+  min_child_weight = 1, 
+  
+  # Subsample ratio of the training data 
+  subsample = 1, 
+  
+  # Subsample ratio of columns when constructing each tree
+  colsample_bytree = 1
+)
+
 set.seed(2023)
 # Train the XGBoost model
-xgb_model <- xgboost(data = dtrain, nrounds = 100, verbose = 0)
+xgb_model <- xgboost(data = dtrain, nrounds = 100, verbose = 0, params = params)
 
 # Make predictions on the test data
 xgb_predictions <- predict(xgb_model, dtest)
@@ -1148,13 +1172,28 @@ xgb_predictions <- as.factor(ifelse(xgb_predictions > 0.5, 'Malicious', 'Benign'
 
 # Compute the confusion matrix
 test$label <- as.factor(ifelse(test$label == 1, 'Malicious', 'Benign'))
-train$label <- as.factor(ifelse(train$label ==1, 'Malicious', 'Benign'))
+train$label <- as.factor(ifelse(train$label == 1, 'Malicious', 'Benign'))
 confusion_matrix <- confusionMatrix(xgb_predictions, test$label)
 
 # Print the confusion matrix
 print(confusion_matrix)
 
+# Convert predictions to numeric
+xgb_predictions_numeric <- as.numeric(ifelse(xgb_predictions == 'Malicious', 1, 0))
+binary_label <- ifelse(test$label == 'Malicious', 1, 0)
+
+# Calculate ROC curve
+roc_xgb <- roc(binary_label, xgb_predictions_numeric)
+
+# AUC for XGBoost
+auc_xgb <- auc(roc_xgb)
+
+print(paste("AUC for XGBoost:", round(auc_xgb, 4)))
+
 ```
+
+
+
 
 
 
