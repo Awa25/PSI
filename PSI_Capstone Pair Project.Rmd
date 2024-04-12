@@ -1193,8 +1193,32 @@ print(paste("AUC for XGBoost:", round(auc_xgb, 4)))
 ```
 
 
+### ROC For XGBoost Model
 
+```{r message=FALSE}
 
+# Binary outcome for the ROC curve
+binary_outcome_XGBoost <- test$label
+
+# Create an ROC object for XGBoost
+roc_XGBoost <- roc(binary_outcome_XGBoost, as.numeric(xgb_predictions))
+
+# Plot ROC curve for XGBoost
+plot(roc_XGBoost, col = "blue",
+     main = "ROC Curve for XGBoost", 
+     lwd = 2, cex.main = 0.8)
+
+```
+
+The accuracy of the model is 0.8633, which indicates that it correctly predicts the class of the data points with an accuracy of 86.33%.
+
+From the confusion matrix, we can see that the model correctly predicted 68598 Benign cases and 17729 Malicious cases. However, it mis-classified 9874 Benign cases as Malicious and 3799 Malicious cases as Benign.
+
+The sensitivity of the model is 0.8742, which indicates the proportion (87.42%) of actual positives (Benign) correctly identified as positive.
+
+The specificity of the model is 0.8235, which indicates the proportion (82.35%) of actual negatives (Malicious) correctly identified as negative.
+
+The Area Under the Curve is 0.8489, which means, the model's ability to distinguish between positive and negative classes scored 84.89%.
 
 
 
