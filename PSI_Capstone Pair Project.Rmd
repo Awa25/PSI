@@ -1224,6 +1224,64 @@ The Area Under the Curve is 0.8489, which means, the model's ability to distingu
 
 
 
+## Random Forest Model
+```{r}
+
+# Random Forest
+set.seed(2024)
+train <- train %>% group_by(label) %>% sample_n(5000, replace = TRUE)
+train <- train[sample(nrow(train)), ]
+row.names(train) <- NULL
+
+rf_model <- randomForest(label ~ ., data = train)
+
+# Predicting
+rf_pred <- predict(rf_model, newdata = test)
+
+# Binary outcome for the ROC curve
+binary_outcome <- ifelse(test$label == "Malicious", 1, 0)
+rf_pred_outcome <- ifelse(rf_pred == "Malicious", 1, 0)
+
+# Calculating ROC curve
+roc_rf <- roc(binary_outcome, rf_pred_outcome)
+auc_rf <- auc(roc_rf)
+
+# Accuracy and AUC for Random Forest
+conf_matrix_rf <- confusionMatrix(rf_pred, test$label)
+conf_matrix_rf
+
+```
+
+
+```{r}
+
+# Getting the accuracy
+accuracy_rf <- conf_matrix_rf$overall["Accuracy"]
+print(paste("Accuracy for Random Forest:", round(accuracy_rf, 4)))
+
+```
+
+```{r}
+
+print(paste("ACU for Random Forest:", round(auc_rf, 4)))
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

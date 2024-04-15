@@ -543,6 +543,7 @@ Regression</a></li>
 <ul>
 <li><a href="#roc-for-xgboost-model" id="toc-roc-for-xgboost-model"><span class="toc-section-number">3.3.1</span> ROC For XGBoost Model</a></li>
 </ul></li>
+<li><a href="#random-forest-model" id="toc-random-forest-model"><span class="toc-section-number">3.4</span> Random Forest Model</a></li>
 </ul></li>
 </ul>
 </div>
@@ -1747,6 +1748,67 @@ as negative.</p>
 <p>The Area Under the Curve is 0.8489, which means, the model’s ability
 to distinguish between positive and negative classes scored 84.89%.</p>
 </div>
+</div>
+<div id="random-forest-model" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Random Forest
+Model</h2>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" tabindex="-1"></a><span class="co"># Random Forest</span></span>
+<span id="cb86-2"><a href="#cb86-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2024</span>)</span>
+<span id="cb86-3"><a href="#cb86-3" tabindex="-1"></a>train <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(label) <span class="sc">%&gt;%</span> <span class="fu">sample_n</span>(<span class="dv">5000</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb86-4"><a href="#cb86-4" tabindex="-1"></a>train <span class="ot">&lt;-</span> train[<span class="fu">sample</span>(<span class="fu">nrow</span>(train)), ]</span>
+<span id="cb86-5"><a href="#cb86-5" tabindex="-1"></a><span class="fu">row.names</span>(train) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb86-6"><a href="#cb86-6" tabindex="-1"></a></span>
+<span id="cb86-7"><a href="#cb86-7" tabindex="-1"></a>rf_model <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(label <span class="sc">~</span> ., <span class="at">data =</span> train)</span>
+<span id="cb86-8"><a href="#cb86-8" tabindex="-1"></a></span>
+<span id="cb86-9"><a href="#cb86-9" tabindex="-1"></a><span class="co"># Predicting</span></span>
+<span id="cb86-10"><a href="#cb86-10" tabindex="-1"></a>rf_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(rf_model, <span class="at">newdata =</span> test)</span>
+<span id="cb86-11"><a href="#cb86-11" tabindex="-1"></a></span>
+<span id="cb86-12"><a href="#cb86-12" tabindex="-1"></a><span class="co"># Binary outcome for the ROC curve</span></span>
+<span id="cb86-13"><a href="#cb86-13" tabindex="-1"></a>binary_outcome <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(test<span class="sc">$</span>label <span class="sc">==</span> <span class="st">&quot;Malicious&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb86-14"><a href="#cb86-14" tabindex="-1"></a>rf_pred_outcome <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(rf_pred <span class="sc">==</span> <span class="st">&quot;Malicious&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb86-15"><a href="#cb86-15" tabindex="-1"></a></span>
+<span id="cb86-16"><a href="#cb86-16" tabindex="-1"></a><span class="co"># Calculating ROC curve</span></span>
+<span id="cb86-17"><a href="#cb86-17" tabindex="-1"></a>roc_rf <span class="ot">&lt;-</span> <span class="fu">roc</span>(binary_outcome, rf_pred_outcome)</span></code></pre></div>
+<pre><code>## Setting levels: control = 0, case = 1</code></pre>
+<pre><code>## Setting direction: controls &lt; cases</code></pre>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" tabindex="-1"></a>auc_rf <span class="ot">&lt;-</span> <span class="fu">auc</span>(roc_rf)</span>
+<span id="cb89-2"><a href="#cb89-2" tabindex="-1"></a></span>
+<span id="cb89-3"><a href="#cb89-3" tabindex="-1"></a><span class="co"># Accuracy and AUC for Random Forest</span></span>
+<span id="cb89-4"><a href="#cb89-4" tabindex="-1"></a>conf_matrix_rf <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(rf_pred, test<span class="sc">$</span>label)</span>
+<span id="cb89-5"><a href="#cb89-5" tabindex="-1"></a>conf_matrix_rf</span></code></pre></div>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##            Reference
+## Prediction  Benign Malicious
+##   Benign     67173      3787
+##   Malicious  11299     17741
+##                                           
+##                Accuracy : 0.8491          
+##                  95% CI : (0.8469, 0.8514)
+##     No Information Rate : 0.7847          
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+##                                           
+##                   Kappa : 0.6037          
+##                                           
+##  Mcnemar&#39;s Test P-Value : &lt; 2.2e-16       
+##                                           
+##             Sensitivity : 0.8560          
+##             Specificity : 0.8241          
+##          Pos Pred Value : 0.9466          
+##          Neg Pred Value : 0.6109          
+##              Prevalence : 0.7847          
+##          Detection Rate : 0.6717          
+##    Detection Prevalence : 0.7096          
+##       Balanced Accuracy : 0.8401          
+##                                           
+##        &#39;Positive&#39; Class : Benign          
+## </code></pre>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" tabindex="-1"></a><span class="co"># Getting the accuracy</span></span>
+<span id="cb91-2"><a href="#cb91-2" tabindex="-1"></a>accuracy_rf <span class="ot">&lt;-</span> conf_matrix_rf<span class="sc">$</span>overall[<span class="st">&quot;Accuracy&quot;</span>]</span>
+<span id="cb91-3"><a href="#cb91-3" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;Accuracy for Random Forest:&quot;</span>, <span class="fu">round</span>(accuracy_rf, <span class="dv">4</span>)))</span></code></pre></div>
+<pre><code>## [1] &quot;Accuracy for Random Forest: 0.8491&quot;</code></pre>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;ACU for Random Forest:&quot;</span>, <span class="fu">round</span>(auc_rf, <span class="dv">4</span>)))</span></code></pre></div>
+<pre><code>## [1] &quot;ACU for Random Forest: 0.8401&quot;</code></pre>
 </div>
 </div>
 
