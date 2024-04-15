@@ -1288,6 +1288,47 @@ Finally, the model managed to get an area under the curve score of 0.8401, which
 
 
 
+## Support Vector Machine (SVM)
+
+```{r}
+
+set.seed(2023)
+
+# Fit SVM model
+svm_model <- svm(label ~ ., data = train, kernel = "radial")
+
+# Making predictions
+svm_pred <- predict(svm_model, newdata = test)
+
+# Confusion matrix
+conf_matrix_svm <- confusionMatrix(svm_pred, test$label)
+
+# Print metrict for SVM
+conf_matrix_svm
+
+```
+
+```{r}
+
+# Birary outcome for the ROC curve
+binary_outcome_svm <- ifelse(test$label == "Malicious", 1, 0)
+binary_svm_pred <- ifelse(svm_pred == "Malicious", 1, 0)
+
+# Calculating ROC curve
+roc_svm <- roc (binary_outcome_svm, binary_svm_pred)
+
+```
+
+```{r}
+
+auc_svm <- auc(roc_svm)
+print(paste("AUC for SVM:", round(auc_svm, 4)))
+
+```
+
+
+
+
 
 
 

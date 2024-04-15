@@ -544,6 +544,8 @@ Regression</a></li>
 <li><a href="#roc-for-xgboost-model" id="toc-roc-for-xgboost-model"><span class="toc-section-number">3.3.1</span> ROC For XGBoost Model</a></li>
 </ul></li>
 <li><a href="#random-forest-model" id="toc-random-forest-model"><span class="toc-section-number">3.4</span> Random Forest Model</a></li>
+<li><a href="#support-vector-machine-svm" id="toc-support-vector-machine-svm"><span class="toc-section-number">3.5</span> Support Vector Machine
+(SVM)</a></li>
 </ul></li>
 </ul>
 </div>
@@ -1828,6 +1830,61 @@ predicted as negative by the model, 61.09% are truly negative. Finally,
 the model managed to get an area under the curve score of 0.8401, which
 means the ability of the model to differentiate between the Benign and
 Malicious cases stood as 84.01%.</p>
+</div>
+<div id="support-vector-machine-svm" class="section level2" number="3.5">
+<h2><span class="header-section-number">3.5</span> Support Vector
+Machine (SVM)</h2>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2023</span>)</span>
+<span id="cb96-2"><a href="#cb96-2" tabindex="-1"></a></span>
+<span id="cb96-3"><a href="#cb96-3" tabindex="-1"></a><span class="co"># Fit SVM model</span></span>
+<span id="cb96-4"><a href="#cb96-4" tabindex="-1"></a>svm_model <span class="ot">&lt;-</span> <span class="fu">svm</span>(label <span class="sc">~</span> ., <span class="at">data =</span> train, <span class="at">kernel =</span> <span class="st">&quot;radial&quot;</span>)</span>
+<span id="cb96-5"><a href="#cb96-5" tabindex="-1"></a></span>
+<span id="cb96-6"><a href="#cb96-6" tabindex="-1"></a><span class="co"># Making predictions</span></span>
+<span id="cb96-7"><a href="#cb96-7" tabindex="-1"></a>svm_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(svm_model, <span class="at">newdata =</span> test)</span>
+<span id="cb96-8"><a href="#cb96-8" tabindex="-1"></a></span>
+<span id="cb96-9"><a href="#cb96-9" tabindex="-1"></a><span class="co"># Confusion matrix</span></span>
+<span id="cb96-10"><a href="#cb96-10" tabindex="-1"></a>conf_matrix_svm <span class="ot">&lt;-</span> <span class="fu">confusionMatrix</span>(svm_pred, test<span class="sc">$</span>label)</span>
+<span id="cb96-11"><a href="#cb96-11" tabindex="-1"></a></span>
+<span id="cb96-12"><a href="#cb96-12" tabindex="-1"></a><span class="co"># Print metrict for SVM</span></span>
+<span id="cb96-13"><a href="#cb96-13" tabindex="-1"></a>conf_matrix_svm</span></code></pre></div>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##            Reference
+## Prediction  Benign Malicious
+##   Benign     66335      3899
+##   Malicious  12137     17629
+##                                           
+##                Accuracy : 0.8396          
+##                  95% CI : (0.8374, 0.8419)
+##     No Information Rate : 0.7847          
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+##                                           
+##                   Kappa : 0.5832          
+##                                           
+##  Mcnemar&#39;s Test P-Value : &lt; 2.2e-16       
+##                                           
+##             Sensitivity : 0.8453          
+##             Specificity : 0.8189          
+##          Pos Pred Value : 0.9445          
+##          Neg Pred Value : 0.5923          
+##              Prevalence : 0.7847          
+##          Detection Rate : 0.6633          
+##    Detection Prevalence : 0.7023          
+##       Balanced Accuracy : 0.8321          
+##                                           
+##        &#39;Positive&#39; Class : Benign          
+## </code></pre>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" tabindex="-1"></a><span class="co"># Birary outcome for the ROC curve</span></span>
+<span id="cb98-2"><a href="#cb98-2" tabindex="-1"></a>binary_outcome_svm <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(test<span class="sc">$</span>label <span class="sc">==</span> <span class="st">&quot;Malicious&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb98-3"><a href="#cb98-3" tabindex="-1"></a>binary_svm_pred <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(svm_pred <span class="sc">==</span> <span class="st">&quot;Malicious&quot;</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb98-4"><a href="#cb98-4" tabindex="-1"></a></span>
+<span id="cb98-5"><a href="#cb98-5" tabindex="-1"></a><span class="co"># Calculating ROC curve</span></span>
+<span id="cb98-6"><a href="#cb98-6" tabindex="-1"></a>roc_svm <span class="ot">&lt;-</span> <span class="fu">roc</span> (binary_outcome_svm, binary_svm_pred)</span></code></pre></div>
+<pre><code>## Setting levels: control = 0, case = 1</code></pre>
+<pre><code>## Setting direction: controls &lt; cases</code></pre>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" tabindex="-1"></a>auc_svm <span class="ot">&lt;-</span> <span class="fu">auc</span>(roc_svm)</span>
+<span id="cb101-2"><a href="#cb101-2" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">&quot;AUC for SVM:&quot;</span>, <span class="fu">round</span>(auc_svm, <span class="dv">4</span>)))</span></code></pre></div>
+<pre><code>## [1] &quot;AUC for SVM: 0.8321&quot;</code></pre>
 </div>
 </div>
 
