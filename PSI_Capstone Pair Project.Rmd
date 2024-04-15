@@ -1267,6 +1267,45 @@ print(paste("ACU for Random Forest:", round(auc_rf, 4)))
 
 ```
 
+```{r}
+
+# Plot ROC curve for Random Forest
+plot(roc_rf, col = "blue",
+     main = "ROC Curve for Random Forest",
+     lwd = 2,
+     cex.main = 0.8)
+
+```
+
+For the Random Forest model, We got an accuracy of 0.8491, which means the algorithm correctly classified 84.91% of all instances into their respective classes.
+The sensitivity is 0.8560, implying that the model correctly identifies 85.60% of the actual positive cases (Benign) as positive.
+The model has a specificity of 0.8241, maening that it identifies 82.41% of the actual negative cases (Malicious) as negative.
+The positive predictive value of 0.9466 means that among the instances predicted as positive by the model, 94.66% are truly positive.
+The negative predictive value of 0.6109 indicates that among the instances predicted as negative by the model, 61.09% are truly negative.
+Finally, the model managed to get an area under the curve score of 0.8401, which means the ability of the model to differentiate between the Benign and Malicious cases stood as 84.01%.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
