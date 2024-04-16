@@ -1267,6 +1267,10 @@ print(paste("ACU for Random Forest:", round(auc_rf, 4)))
 
 ```
 
+
+
+### ROC For Random Forest Model
+
 ```{r}
 
 # Plot ROC curve for Random Forest
@@ -1328,7 +1332,29 @@ print(paste("AUC for SVM:", round(auc_svm, 4)))
 
 
 
+### ROC For SVM
 
+```{r}
+
+# Binary outcome for the ROC curve
+binary_outcome_svm <- ifelse(test$label == "Malicious", 1, 0)
+
+# Create an ROC object for SVM
+roc_svm <- roc(binary_outcome_svm, binary_svm_pred)
+
+# Plot ROC curve for SVM
+plot(roc_svm, col = "blue",
+     main = "ROC Curve for SVM",
+     lwd = 2,
+     cex.main = 0.8)
+
+```
+
+The accuracy of the SVM model is 0.8396, indicating that it correctly prdicts the class of the data points with an accuracy of 83.96%
+From the confusion matrix, we can see that the model correctly predicted 66335 Benign cases and 17629 Malicious cases, but it mis-classified 12137 Benign cases as Malicious, and 3899 Malicious cases as Benign.
+The sensitivity of the model is 84.53%, indicating the proportion of the actual positives correctly identified as positive.
+The specificity of the model is 81.89%, indicating the proportion of the actual negatives correctly identified as negative.
+The area under the curve for the SVM model is 0.8321, meaning, the model's ability to in distinguishing between alive and dead classes is placed as about 83.21%.
 
 
 
