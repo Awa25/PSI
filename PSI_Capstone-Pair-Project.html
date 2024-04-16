@@ -552,6 +552,7 @@ Model</a></li>
 <ul>
 <li><a href="#roc-for-svm" id="toc-roc-for-svm"><span class="toc-section-number">3.5.1</span> ROC For SVM</a></li>
 </ul></li>
+<li><a href="#evaluation" id="toc-evaluation"><span class="toc-section-number">3.6</span> Evaluation</a></li>
 </ul></li>
 </ul>
 </div>
@@ -1922,6 +1923,50 @@ correctly identified as negative. The area under the curve for the SVM
 model is 0.8321, meaning, the model’s ability to in distinguishing
 between alive and dead classes is placed as about 83.21%.</p>
 </div>
+</div>
+<div id="evaluation" class="section level2" number="3.6">
+<h2><span class="header-section-number">3.6</span> Evaluation</h2>
+<ul>
+<li>Decision Tree
+<ul>
+<li>Accuracy: 80.61%</li>
+<li>Sensitivity: 79.87%</li>
+<li>Specificity: 83.33%</li>
+<li>AUC for Decision Tree: 81.6%</li>
+</ul></li>
+<li>Logistic Regression
+<ul>
+<li>Accuracy: 85.33%</li>
+<li>Sensitivity: 89.07%</li>
+<li>Specificity: 71.68%</li>
+<li>AUC for Logistic Regression: 80.37%</li>
+</ul></li>
+<li>XGBoost
+<ul>
+<li>Accuracy: 86.33%</li>
+<li>Sensitivity: 87.42%</li>
+<li>Specificity: 82.35%</li>
+<li>AUC for XGBoost: 84.89%</li>
+</ul></li>
+<li>Random Forest
+<ul>
+<li>Accuracy: 84.91%</li>
+<li>Sensitivity: 85.6%</li>
+<li>Specificity: 82.41%</li>
+<li>AUC for Random Forest: 84.01%</li>
+</ul></li>
+<li>Support Vector Machine
+<ul>
+<li>Accuracy: 83.96%</li>
+<li>Sensitivity: 84.53%</li>
+<li>Specificity: 81.89%</li>
+<li>AUC for SVM: 83.21%</li>
+</ul></li>
+</ul>
+<p>Considering all the models’ performance as seen in the analysis, it
+seems like XGBoost has the highest accuracy (86.33%), relatively high
+sensitivity (87.42%), specificity (82.35%), and ACU (84.89%), making it
+the best choice for striking a balance between these metrics.</p>
 </div>
 </div>
 

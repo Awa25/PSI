@@ -1359,6 +1359,33 @@ The area under the curve for the SVM model is 0.8321, meaning, the model's abili
 
 
 
+## Evaluation
+* Decision Tree
+  * Accuracy: 80.61%
+  * Sensitivity: 79.87%
+  * Specificity: 83.33%
+* Logistic Regression
+  * Accuracy: 85.33%
+  * Sensitivity: 89.07%
+  * Specificity: 71.68%
+  * AUC for Logistic Regression: 80.37%
+* XGBoost
+  * Accuracy: 86.33%
+  * Sensitivity: 87.42%
+  * Specificity: 82.35%
+  * AUC for XGBoost: 84.89%
+* Random Forest
+  * Accuracy: 84.91%
+  * Sensitivity: 85.6%
+  * Specificity: 82.41%
+  * AUC for Random Forest: 84.01%
+* Support Vector Machine
+  * Accuracy: 83.96%
+  * Sensitivity: 84.53%
+  * Specificity: 81.89%
+  * AUC for SVM: 83.21%
+
+Considering all the models' performance as seen in the analysis, it seems like XGBoost has the highest accuracy (86.33%), relatively high sensitivity (87.42%), specificity (82.35%), and ACU (84.89%), making it the best choice for striking a balance between these metrics.
 
 
 
