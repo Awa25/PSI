@@ -1364,6 +1364,7 @@ The area under the curve for the SVM model is 0.8321, meaning, the model's abili
   * Accuracy: 80.61%
   * Sensitivity: 79.87%
   * Specificity: 83.33%
+  * AUC for Decision Tree: 81.6%
 * Logistic Regression
   * Accuracy: 85.33%
   * Sensitivity: 89.07%
