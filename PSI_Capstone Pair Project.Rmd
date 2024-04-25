@@ -1437,12 +1437,12 @@ input_features <- c(
   "subdomain_len", "subdomain_count_dot"
 )
 
-user_input_data <- data.frame(matrix(nrow = 1, ncol ="length(input_features")))
-colnames(name_input_data) <- input_features
+#user_input_data <- data.frame(matrix(nrow = 1, ncol ="length(input_features")))
+#colnames(name_input_data) <- input_features
 
-for (i in seq_along(input_features)) {
-  user_inpu_data[, i] <- get_user_input(input_features[i])
-}
+#for (i in seq_along(input_features)) {
+#  user_inpu_data[, i] <- get_user_input(input_features[i])
+#}
 
 ```
 
