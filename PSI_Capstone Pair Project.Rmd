@@ -34,6 +34,7 @@ library(pROC)
 library(PRROC)
 library(ROCR)
 library(xgboost)
+library(kableExtra)
 
 ```
 
@@ -1375,7 +1376,7 @@ print(paste("AUC for SVM:", round(auc_svm, 4)))
 ```{r}
 
 # Creating a dataframe for SVM model
-rf_metrics_df <- data.frame(
+svm_metrics_df <- data.frame(
   Model = "SVM",
   Accuracy = round(as.numeric(conf_matrix_svm$overall['Accuracy']) * 100, 2),
   Sensitivity = round(as.numeric(conf_matrix_svm$byClass['Sensitivity']) * 100, 2),
@@ -1414,31 +1415,19 @@ The area under the curve for the SVM model is 0.8321, meaning, the model's abili
 
 
 ## Evaluation
-* Decision Tree
-  * Accuracy: 80.61%
-  * Sensitivity: 79.87%
-  * Specificity: 83.33%
-  * AUC for Decision Tree: 81.6%
-* Logistic Regression
-  * Accuracy: 85.33%
-  * Sensitivity: 89.07%
-  * Specificity: 71.68%
-  * AUC for Logistic Regression: 80.37%
-* XGBoost
-  * Accuracy: 86.33%
-  * Sensitivity: 87.42%
-  * Specificity: 82.35%
-  * AUC for XGBoost: 84.89%
-* Random Forest
-  * Accuracy: 84.91%
-  * Sensitivity: 85.6%
-  * Specificity: 82.41%
-  * AUC for Random Forest: 84.01%
-* Support Vector Machine
-  * Accuracy: 83.96%
-  * Sensitivity: 84.53%
-  * Specificity: 81.89%
-  * AUC for SVM: 83.21%
+
+```{r}
+
+# Combine all the dataframes
+combined_metrics_df <- rbind(dt_metrics_df, log_reg_metrics, xgb_metrics_df, rf_metrics_df, svm_metrics_df)
+
+# Print the combined dataframe
+# Combined_metrics_df
+
+kable(combined_metrics_df) %>%
+  kable_styling(latex_options = 'striped')
+
+```
 
 Considering all the models' performance as seen in the analysis, it seems like XGBoost has the highest accuracy (86.33%), relatively high sensitivity (87.42%), specificity (82.35%), and ACU (84.89%), making it the best choice for striking a balance between these metrics.
 
