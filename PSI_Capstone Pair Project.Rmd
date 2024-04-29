@@ -1287,12 +1287,26 @@ print(paste("Accuracy for Random Forest:", round(accuracy_rf, 4)))
 
 ```
 
+
 ```{r}
 
 print(paste("ACU for Random Forest:", round(auc_rf, 4)))
 
 ```
 
+
+```{r}
+
+# Creating a dataframe for Random Forest model
+rf_metrics_df <- data.frame(
+  Model = "Random Forest",
+  Accuracy = round(as.numeric(conf_matrix_rf$overall['Accuracy']) * 100, 2),
+  Sensitivity = round(as.numeric(conf_matrix_rf$byClass['Sensitivity']) * 100, 2),
+  Specificity = round(as.numeric(conf_matrix_rf$byClass['Specificity']) * 100, 2),
+  AUC = round(auc_rf * 100, 2)
+)
+
+```
 
 
 ### ROC For Random Forest Model
@@ -1349,6 +1363,7 @@ roc_svm <- roc (binary_outcome_svm, binary_svm_pred)
 
 ```
 
+
 ```{r}
 
 auc_svm <- auc(roc_svm)
@@ -1356,6 +1371,19 @@ print(paste("AUC for SVM:", round(auc_svm, 4)))
 
 ```
 
+
+```{r}
+
+# Creating a dataframe for SVM model
+rf_metrics_df <- data.frame(
+  Model = "SVM",
+  Accuracy = round(as.numeric(conf_matrix_svm$overall['Accuracy']) * 100, 2),
+  Sensitivity = round(as.numeric(conf_matrix_svm$byClass['Sensitivity']) * 100, 2),
+  Specificity = round(as.numeric(conf_matrix_svm$byClass['Specificity']) * 100, 2),
+  AUC = round(auc_svm * 100, 2)
+)
+
+```
 
 
 ### ROC For SVM
