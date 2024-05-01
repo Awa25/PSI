@@ -5,10 +5,11 @@ date: "2024-03-25"
 output: 
   html_document:
     toc: yes
-    toc_depth: 5
-    number_sections: yes
-    theme: united
-    highlight: tango
+    toc_depth: '5'
+    df_print: paged
+  pdf_document:
+    toc: yes
+    toc_depth: '5'
 ---
 
 ```{r setup, include=FALSE}
@@ -1037,12 +1038,12 @@ dt_metrics_df <- data.frame(
 # Binary outcome for the ROC curve
 binary_outcome_dt <- test$label
 
-# Create an ROC object for XGBoost
+# Create an ROC object for Decision Tree
 roc_dt <-roc(binary_outcome_dt, as.numeric(dt_predictions))
 
-# Plot ROC curve for XGBoost
+# Plot ROC curve for Decision Tree
 plot(roc_dt, col = "blue",
-     main = "ROC Curve for XGBoost",
+     main = "ROC Curve for Decision Tree",
      lwd = 2,
      cex.main = 0.8)
 
@@ -1435,7 +1436,7 @@ Considering all the models' performance as seen in the analysis, it seems like X
 
 # Deployment
 
-In here, we've developed an interactive program for URL labrl prediction basd on user-inputted features.
+In here, we have developed an interactive program for URL label prediction based on user-inputted features. Firstly, a function named get_user_input is defined to prompt the user to input values for each feature associated with the URL. These features are stored in the input_features vector. Subsequently, an empty dataframe named user_input_data is created to collect the user-provided values for each feature. Through a loop iterating  over the input_features. user input are obtained and stored in the corresponding columns of user_input_data. Following this, a function called predict_label is established to predict the label, either "Malicious" or "Benign", based on the user-inputted features using a pre-trined modex(xgb_model). The program them predicts the label for the provided user input and prints an appropriate message based on the predicted label, cautioning the user if a  potential malicious URL is detected or signaling that the URL is safe to proceed. This program facilitates quick assessment and classification of URLs based on user-provided features, offering a simple yet effective means of URL label prediction.
 
 ```{r}
 
@@ -1486,61 +1487,6 @@ if (any(predicted_label == "Malicious")) {
 }
 
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
