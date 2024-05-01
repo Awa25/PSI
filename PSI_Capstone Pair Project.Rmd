@@ -3,13 +3,13 @@ title: "PSI_Capstone Pair Project"
 author: "Ruei Li Jhang & Chia Hua Lin"
 date: "2024-03-25"
 output: 
+  pdf_document:
+    toc: yes
+    toc_depth: '5'
   html_document:
     toc: yes
     toc_depth: '5'
     df_print: paged
-  pdf_document:
-    toc: yes
-    toc_depth: '5'
 ---
 
 ```{r setup, include=FALSE}
@@ -35,7 +35,9 @@ library(pROC)
 library(PRROC)
 library(ROCR)
 library(xgboost)
-library(kableExtra)
+#library(kableExtra)
+
+#devtools::install_github("kupietz/kableExtra")
 
 ```
 
@@ -169,9 +171,17 @@ train_data <- train_data %>%
 During EDA, we are going to perform tasks such as:
 
 * Summarizing the distribution of each variable (count and distribution)
+  * Binary Variables
+    * Select 6 columns to identify binary variables.Check if the column is numeric and if it possesses only two unique values. If these conditions were met, then the column contains binary data.
 * Visualizing relationships between variables (scatter plots, box plots)
+  * Distribution of Numerical Variables 
+    * We filtered out specific columns that mentioned selected variables and used histograms to analyze their distribution. 
 * Detecting outliers or anomalies (histograms)
+  * Treating Outliers 
+    * We defined a function for identifying and managing outliers and took three parameters: the dataset data, specifying the vector of columns to process, and determining the threshold for anomaly detection criteria, set to 3 standard deviations from the mean. We replace outliers with missing(NA) and print a summary for each column, indicating the number of outliers. Then we ignore all the missing values(NA).
 * Exploring correlations between variables
+  * Correlation Between Numerical Variables and Target Variable, Label
+  * Correlation Between Binary Variable and Target Variable, Label 
 * Identifying potential patterns or trends in the data
 
 
@@ -1419,6 +1429,8 @@ The area under the curve for the SVM model is 0.8321, meaning, the model's abili
 
 ```{r}
 
+library(kableExtra)
+
 # Combine all the dataframes
 combined_metrics_df <- rbind(dt_metrics_df, log_reg_metrics, xgb_metrics_df, rf_metrics_df, svm_metrics_df)
 
@@ -1436,7 +1448,7 @@ Considering all the models' performance as seen in the analysis, it seems like X
 
 # Deployment
 
-In here, we have developed an interactive program for URL label prediction based on user-inputted features. Firstly, a function named get_user_input is defined to prompt the user to input values for each feature associated with the URL. These features are stored in the input_features vector. Subsequently, an empty dataframe named user_input_data is created to collect the user-provided values for each feature. Through a loop iterating  over the input_features. user input are obtained and stored in the corresponding columns of user_input_data. Following this, a function called predict_label is established to predict the label, either "Malicious" or "Benign", based on the user-inputted features using a pre-trined modex(xgb_model). The program them predicts the label for the provided user input and prints an appropriate message based on the predicted label, cautioning the user if a  potential malicious URL is detected or signaling that the URL is safe to proceed. This program facilitates quick assessment and classification of URLs based on user-provided features, offering a simple yet effective means of URL label prediction.
+In here, we have developed an interactive program for URL label prediction based on user-inputted features. Firstly, a function named get_user_input is defined to prompt the user to input values for each feature associated with the URL. These features are stored in the input_features vector. Subsequently, an empty dataframe named user_input_data is created to collect the user-provided values for each feature. Through a loop iterating  over the input_features. user input are obtained and stored in the corresponding columns of user_input_data. Following this, a function called predict_label is established to predict the label, either "Malicious" or "Benign", based on the user-inputted features using a pre-trained model(xgb_model). The program them predicts the label for the provided user input and prints an appropriate message based on the predicted label, cautioning the user if a  potential malicious URL is detected or signaling that the URL is safe to proceed. This program facilitates quick assessment and classification of URLs based on user-provided features, offering a simple yet effective means of URL label prediction.
 
 ```{r}
 
