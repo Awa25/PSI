@@ -237,7 +237,7 @@ ggplot(binary_df, aes(x = url_has_login, fill = url_has_login)) +
 
 ```
 
-For the URLs that are no malicious, 99986 had no log in while 14 had log in. For the malicious URLs, 92849 had no log in while 7151 had log in.
+For the URLs that are not malicious, 99986 had no login while 14 had login. For the malicious URLs, 92849 had nolog in while 7151 had login.
 
 
 
@@ -258,7 +258,7 @@ ggplot(binary_df, aes(x = url_has_client, fill = url_has_client)) +
 
 ```
 
-For the URLs that are no malicious, 99987 had no client in while 13 had client. For the malicious URLs, 99123 had no client in while 877 had client.
+For the URLs that are not malicious, 99987 had no clients while 13 had clients. For the malicious URLs, 99123 had no client while 877 had a client.
 
 
 
@@ -280,7 +280,7 @@ ggplot(binary_df, aes(x = url_has_server, fill = url_has_server)) +
 
 ```
 
-For the UELs that are not malicious, 99839 had no server in while 161 had server. For the malicious URLs, 99512 had no server in while 488 had server.
+For the UELs that are not malicious, 99839 had no server while 161 had a server. For the malicious URLs, 99512 had no server while 488 had a server.
 
 
 
@@ -302,7 +302,7 @@ ggplot(binary_df, aes(x = url_has_admin, fill = url_has_admin)) +
 
 ```
 
-For the URLs that are not malicious, 99950 had no admin in while 50 had admin. For the malicious URLs, 98442 had no admin while 1558 had admin.
+For the URLs that are not malicious, 99950 had no admin while 50 had admin. For the malicious URLs, 98442 had no admin while 1558 had admin.
 
 
 
@@ -324,7 +324,7 @@ ggplot(binary_df, aes(x = url_has_ip, fill = url_has_ip)) +
 
 ```
 
-For the URLs that are not malicious, all had no IP. For the malicious URLs, 98374 had no IP in while 1626 had IP.
+For the URLs that are not malicious, all had no IP. For the malicious URLs, 98374 had no IP while 1626 had an IP.
 
 
 
@@ -346,7 +346,7 @@ ggplot(binary_df, aes(x = url_isshorted, fill = url_isshorted)) +
 
 ```
 
-For the URLs that are no milicious, 4475 were shortened in while 95525 were not. For the malicious URLs, 7091 were shortened in while 92909 were not.
+For the URLs that are not malicious, 4475 were shortened while 95525 were not. For the malicious URLs, 7091 were shortened while 92909 were not.
 
 
 
@@ -368,7 +368,7 @@ ggplot(binary_df, aes(x = label, fill = label)) +
 
 ```
 
-Out target variable which is Label, is was balanced.
+Our target variable which is Label, was balanced.
 
 
 
@@ -788,7 +788,7 @@ train_data_cleaned <- na.omit(train_data_cleaned)
 
 #### Correlation Between Numerical Variables and Target Variable, Label
 
-Then, we perform correlation analysis between numerical variables and a binary label in a dataset. We define a function named correlation_plot that calculates point-biserial correlation coefficients for each numerical variable with respect to the binary label. This function iterates over the numerical columns, computes the correlation coefficient using the biserial.cor function, and appends the results to the global dataframe correlation_data. Finally, the fuction generates a bar plot of correlationts ordered from highest to lowest, providing insights into the strength and direction of association between each numerical variable and the binary label.
+Then, we perform correlation analysis between numerical variables and a binary label in a dataset. We define a function named correlation_plot that calculates point-biserial correlation coefficients for each numerical variable with respect to the binary label. This function iterates over the numerical columns, computes the correlation coefficient using the biserial.cor function, and appends the results to the global dataframe correlation_data. Finally, the function generates a bar plot of correlations ordered from highest to lowest, providing insights into the strength and direction of association between each numerical variable and the binary label.
 
 
 
@@ -860,7 +860,7 @@ URL entropy has the strongest correlation with our target variable label, follow
 
 
 
-#### Correlation Between Binary Varialbe and Target Varialbe Label
+#### Correlation Between Binary Variable and Target Variable Label
 
 In here, we computed the Phi coefficient, a measure of association between two binary variables, specifically between binary variables and a binary label within a dataset. The compute_phi_coefficients function iterates over each column in the dataset, checking if the column is binary(i.e., a factor with two levels). If the condition is met, the Phi coefficient is calculated between the binary variable and the binary label.The results are appended to the result dataframe.Finally, the function generates a bar plot visualizing the Phi coefficients for each binary variable with respect to the label. The function returns both the result dataframe and the genarated plot.
 
@@ -922,7 +922,7 @@ The URL with log in has the strongest association with the target variable, foll
 
 # Data Preparation
 
-We will then perform preparation like cleaning, and transforming the data to make it suitable for analysis and modeling. This may iclude handling missing values, encoding categorical variables, scaling features, and splitting the data into training and testing sets.
+We will then perform preparation like cleaning, and transforming the data to make it suitable for analysis and modeling. This may include handling missing values, encoding categorical variables, scaling features, and splitting the data into training and testing sets.
 
 
 
@@ -1060,9 +1060,9 @@ plot(roc_dt, col = "blue",
 ```
 
 
-The accuracy of the Decision Tree Classifier model is 0.861, indicating that it correctly predicts class of the data points with an accuracy of 80.61%.
+The accuracy of the Decision Tree Classifier model is 0.861, indicating that it correctly predicts the class of the data points with an accuracy of 80.61%.
 
-We can also see that the model correctly predicted62674 cases as Benign and 17939 cases as Malicious. It mis-classiied 15798 Benign cases as Malicious and 3598 Malicious cases Malicious case as Benign.
+We can also see that the model correctly predicted62674 cases as Benign and 17939 cases as Malicious. It misclassiied 15798 Benign cases as Malicious and 3598 Malicious cases Malicious case as Benign.
 
 The sensitivity of the model is 79.87, indicating the proportion of actual positives(Benign) correctly identified as positive(benign).
 
@@ -1138,13 +1138,13 @@ plot(roc_log_reg, col ="blue",
 
 The accuracy of the model is 0.8533, which indicates that is correctly predicts the class of the data points with an accuracy of 85.33%.
 
-From the confusion matrix, we can see that the model correctly predicted 69895 Benign cases and 15431 Malicious cases. However, it mis-classified 8577 Benign cases as Malicious and 6097 Malicious cases as Benign.
+From the confusion matrix, we can see that the model correctly predicted 69895 Benign cases and 15431 Malicious cases. However, it misclassified 8577 Benign cases as Malicious and 6097 Malicious cases as Benign.
 
 The sensitivity of the model is 0.8907, which indicates the proportion (89.07%) of actual positives (Benign) correctly identified as positive.
 
 The specificity of the model is 0.7168, which indicates the proportion (71.68%) of actual negatives (Malicious) correctly identified as negative.
 
-The Area Under the Curve is 0.8037, which means, the model's ablility to distinguish between positive and negative classes scored 80.37%.
+The Area Under the Curve is 0.8037, which means, the model's ability to distinguish between positive and negative classes scored 80.37%.
 
 
 
@@ -1250,7 +1250,7 @@ plot(roc_XGBoost, col = "blue",
 
 The accuracy of the model is 0.8633, which indicates that it correctly predicts the class of the data points with an accuracy of 86.33%.
 
-From the confusion matrix, we can see that the model correctly predicted 68598 Benign cases and 17729 Malicious cases. However, it mis-classified 9874 Benign cases as Malicious and 3799 Malicious cases as Benign.
+From the confusion matrix, we can see that the model correctly predicted 68598 Benign cases and 17729 Malicious cases. However, it misclassified 9874 Benign cases as Malicious and 3799 Malicious cases as Benign.
 
 The sensitivity of the model is 0.8742, which indicates the proportion (87.42%) of actual positives (Benign) correctly identified as positive.
 
@@ -1335,7 +1335,7 @@ plot(roc_rf, col = "blue",
 
 For the Random Forest model, We got an accuracy of 0.8491, which means the algorithm correctly classified 84.91% of all instances into their respective classes.
 The sensitivity is 0.8560, implying that the model correctly identifies 85.60% of the actual positive cases (Benign) as positive.
-The model has a specificity of 0.8241, maening that it identifies 82.41% of the actual negative cases (Malicious) as negative.
+The model has a specificity of 0.8241, meaning that it identifies 82.41% of the actual negative cases (Malicious) as negative.
 The positive predictive value of 0.9466 means that among the instances predicted as positive by the model, 94.66% are truly positive.
 The negative predictive value of 0.6109 indicates that among the instances predicted as negative by the model, 61.09% are truly negative.
 Finally, the model managed to get an area under the curve score of 0.8401, which means the ability of the model to differentiate between the Benign and Malicious cases stood as 84.01%.
@@ -1416,8 +1416,8 @@ plot(roc_svm, col = "blue",
 
 ```
 
-The accuracy of the SVM model is 0.8396, indicating that it correctly prdicts the class of the data points with an accuracy of 83.96%
-From the confusion matrix, we can see that the model correctly predicted 66335 Benign cases and 17629 Malicious cases, but it mis-classified 12137 Benign cases as Malicious, and 3899 Malicious cases as Benign.
+The accuracy of the SVM model is 0.8396, indicating that it correctly predicts the class of the data points with an accuracy of 83.96%
+From the confusion matrix, we can see that the model correctly predicted 66335 Benign cases and 17629 Malicious cases, but it misclassified 12137 Benign cases as Malicious, and 3899 Malicious cases as Benign.
 The sensitivity of the model is 84.53%, indicating the proportion of the actual positives correctly identified as positive.
 The specificity of the model is 81.89%, indicating the proportion of the actual negatives correctly identified as negative.
 The area under the curve for the SVM model is 0.8321, meaning, the model's ability to in distinguishing between alive and dead classes is placed as about 83.21%.
